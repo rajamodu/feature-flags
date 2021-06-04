@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,18 @@ class Project
      * @ORM\Column(type="string", length=255)
      */
     private $manage_key;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Environment", mappedBy="project")
+     */
+    private $environments;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Feature", mappedBy="project")
+     */
+    private $features;
 
     public function getId(): ?int
     {
@@ -105,5 +118,15 @@ class Project
         $this->manage_key = $manage_key;
 
         return $this;
+    }
+
+    public function getEnvironments(): Collection
+    {
+        return $this->environments;
+    }
+
+    public function getFeatures(): Collection
+    {
+        return $this->features;
     }
 }
