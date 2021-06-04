@@ -7,10 +7,18 @@ namespace App\Entity;
 use App\Repository\FeatureRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass=FeatureRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @Table(name="feature",
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="feature_unique",
+ *            columns={"name", "project_id"})
+ *    }
+ * )
  */
 class Feature
 {

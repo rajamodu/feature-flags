@@ -7,10 +7,18 @@ namespace App\Entity;
 use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass=ProjectRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @Table(name="project",
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="project_unique",
+ *            columns={"name", "owner"})
+ *    }
+ * )
  */
 class Project
 {

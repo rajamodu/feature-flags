@@ -7,10 +7,18 @@ namespace App\Entity;
 use App\Repository\EnvironmentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass=EnvironmentRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @Table(name="environment",
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="environment_unique",
+ *            columns={"name", "project_id"})
+ *    }
+ * )
  */
 class Environment
 {

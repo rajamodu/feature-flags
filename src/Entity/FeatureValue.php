@@ -6,10 +6,18 @@ namespace App\Entity;
 
 use App\Repository\FeatureValueRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @ORM\Entity(repositoryClass=FeatureValueRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @Table(name="feature_value",
+ *    uniqueConstraints={
+ *        @UniqueConstraint(name="feature_value_unique",
+ *            columns={"feature_id", "environment_id"})
+ *    }
+ * )
  */
 class FeatureValue
 {
