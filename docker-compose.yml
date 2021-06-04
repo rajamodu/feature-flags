@@ -25,11 +25,6 @@ services:
       - DOCKER_ENVIRONMENT=true
       - PHP_IDE_CONFIG=serverName=Docker
       - APP_SECRET=${APP_SECRET}
-      - ELASTIC_BASE_URL=${ELASTIC_BASE_URL}
-      - MG_API_KEY=${MG_API_KEY}
-      - MG_URL=${MG_URL}
-      - FROM_EMAIL=${FROM_EMAIL}
-      - ADMIN_EMAIL=${ADMIN_EMAIL}
       - DATABASE_URL=mysql://${DB_USER}:${DB_PASSWORD}@database:3306/${DB_NAME}?serverVersion=5.7
     volumes:
       - ./:/var/www
