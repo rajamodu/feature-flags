@@ -88,6 +88,9 @@ class Feature
         return $this;
     }
 
+    /**
+     * @return Collection|FeatureValue[]
+     */
     public function getValues(): Collection
     {
         return $this->values;

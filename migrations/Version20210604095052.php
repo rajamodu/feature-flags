@@ -29,37 +29,42 @@ final class Version20210604095052 extends AbstractMigration
 
         // create environments
         $environmentsIds = [];
-        $environmentsIds[] = $this->connection->insert('environment', [
+        $this->connection->insert('environment', [
             'name' => 'prod',
             'description' => 'Production environment',
             'project_id' => $projectId,
         ]);
+        $environmentsIds[] = $this->connection->lastInsertId();
 
-        $environmentsIds[] = $this->connection->insert('environment', [
+        $this->connection->insert('environment', [
             'name' => 'stage',
             'description' => 'Staging environment',
             'project_id' => $projectId,
         ]);
+        $environmentsIds[] = $this->connection->lastInsertId();
 
-        $environmentsIds[] = $this->connection->insert('environment', [
+        $this->connection->insert('environment', [
             'name' => 'dev',
             'description' => 'Development environment',
             'project_id' => $projectId,
         ]);
+        $environmentsIds[] = $this->connection->lastInsertId();
 
         // create features
         $featuresIds = [];
-        $featuresIds[] = $this->connection->insert('feature', [
+        $this->connection->insert('feature', [
             'name' => 'feature1',
             'description' => 'Demo project feature 1',
             'project_id' => $projectId,
         ]);
+        $featuresIds[] = $this->connection->lastInsertId();
 
-        $featuresIds[] = $this->connection->insert('feature', [
+        $this->connection->insert('feature', [
             'name' => 'feature2',
             'description' => 'Demo project feature 2',
             'project_id' => $projectId,
         ]);
+        $featuresIds[] = $this->connection->lastInsertId();
 
         foreach ($featuresIds as $featuresId) {
             foreach ($environmentsIds as $environmentsId) {

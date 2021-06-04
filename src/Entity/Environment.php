@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Environment
 {
+    public const ENV_PROD = 'prod';
+
     use TimestampedEntityTrait;
 
     /**
