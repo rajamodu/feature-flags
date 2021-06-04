@@ -39,12 +39,12 @@ class Project
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $read_key;
+    private $readKey;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $manage_key;
+    private $manageKey;
 
     /**
      * @var Collection
@@ -101,7 +101,7 @@ class Project
 
     public function getReadKey(): ?string
     {
-        return $this->read_key;
+        return $this->readKey;
     }
 
     public function setReadKey(string $read_key): self
@@ -113,7 +113,7 @@ class Project
 
     public function getManageKey(): ?string
     {
-        return $this->manage_key;
+        return $this->manageKey;
     }
 
     public function setManageKey(string $manage_key): self
