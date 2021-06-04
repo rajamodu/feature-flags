@@ -7,9 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=FeatureValueRepository::class)
+ * @ORM\HasLifecycleCallbacks
  */
 class FeatureValue
 {
+    use TimestampedEntityTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
