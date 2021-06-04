@@ -27,6 +27,11 @@ class Environment
     private $name;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
      * @var Project
      *
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="environments")
@@ -53,6 +58,18 @@ class Environment
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
