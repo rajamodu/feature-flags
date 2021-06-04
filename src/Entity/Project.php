@@ -114,9 +114,9 @@ class Project
         return $this->readKey;
     }
 
-    public function setReadKey(string $read_key): self
+    public function setReadKey(string $readKey): self
     {
-        $this->read_key = $read_key;
+        $this->readKey = $readKey;
 
         return $this;
     }
@@ -126,9 +126,9 @@ class Project
         return $this->manageKey;
     }
 
-    public function setManageKey(string $manage_key): self
+    public function setManageKey(string $manageKey): self
     {
-        $this->manage_key = $manage_key;
+        $this->manageKey = $manageKey;
 
         return $this;
     }

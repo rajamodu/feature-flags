@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Environment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Environment[]    findAll()
  * @method Environment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class EnvironmentRepository extends ServiceEntityRepository
+class EnvironmentRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
