@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Entity\Environment;
 use App\Entity\Feature;
-use App\Entity\FeatureValue;
 use App\Entity\Project;
 use App\Repository\FeatureRepository;
 use App\Service\Api\Request\FeatureRequest;
-use App\Service\Api\Request\FeatureValueRequest;
 
 class FeatureService
 {

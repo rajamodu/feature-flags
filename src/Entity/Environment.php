@@ -22,9 +22,8 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  */
 class Environment
 {
-    public const ENV_PROD = 'prod';
-
     use TimestampedEntityTrait;
+    public const ENV_PROD = 'prod';
 
     /**
      * @ORM\Id

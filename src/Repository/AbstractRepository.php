@@ -12,7 +12,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->persist($entity);
 
-        if($flush) {
+        if ($flush) {
             $this->flush();
         }
 
@@ -23,7 +23,7 @@ abstract class AbstractRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($entity);
 
-        if($flush) {
+        if ($flush) {
             $this->flush();
         }
     }
@@ -37,5 +37,4 @@ abstract class AbstractRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->flush();
     }
-
 }

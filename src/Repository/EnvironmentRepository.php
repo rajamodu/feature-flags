@@ -22,7 +22,6 @@ class EnvironmentRepository extends AbstractRepository
     }
 
     /**
-     * @param Project $project
      * @return Environment[]
      */
     public function findAllByProject(Project $project): array

@@ -22,7 +22,6 @@ class FeatureRepository extends AbstractRepository
     }
 
     /**
-     * @param Project $project
      * @return Feature[]
      */
     public function findAllByProject(Project $project): array

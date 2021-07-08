@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service\Api\Serializer;
 
-use App\Entity\Environment;
 use App\Entity\Feature;
 use App\Service\AbstractSerializer;
 

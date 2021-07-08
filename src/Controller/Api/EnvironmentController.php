@@ -6,14 +6,10 @@ namespace App\Controller\Api;
 
 use App\Controller\AbstractApiController;
 use App\Repository\EnvironmentRepository;
-use App\Repository\ProjectRepository;
 use App\Service\Api\Request\EnvironmentRequest;
+use App\Service\Api\Serializer\EnvironmentSerializer;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
-use App\Service\Manage\Request\ProjectRequest;
-use App\Service\Api\Serializer\EnvironmentSerializer;
-use App\Service\Manage\Serializer\ProjectSerializer;
-use App\Service\ProjectService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

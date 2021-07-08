@@ -7,7 +7,6 @@ namespace App\Repository;
 use App\Entity\Environment;
 use App\Entity\Feature;
 use App\Entity\FeatureValue;
-use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**

@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ProjectController extends AbstractApiController
 {
-
     public function __construct(
         private ProjectService $projectService,
         private ProjectRepository $projectRepository,
