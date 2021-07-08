@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Entity\Environment;
+use App\Entity\Feature;
 use App\Entity\FeatureValue;
+use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,5 +21,13 @@ class FeatureValueRepository extends AbstractRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, FeatureValue::class);
+    }
+
+    public function findOneByFeatureAndEnvironment(Feature $feature, Environment $environment): ?FeatureValue
+    {
+        return $this->findOneBy([
+            'feature' => $feature,
+            'environment' => $environment,
+        ]);
     }
 }

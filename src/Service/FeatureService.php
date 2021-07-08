@@ -10,11 +10,10 @@ use App\Entity\FeatureValue;
 use App\Entity\Project;
 use App\Repository\FeatureRepository;
 use App\Service\Api\Request\FeatureRequest;
+use App\Service\Api\Request\FeatureValueRequest;
 
 class FeatureService
 {
-    private const ERROR_VALUE_NOT_SET_FOR_ENV = 'Feature(%s) value is not set for environment(%s)';
-
     public function __construct(
         private FeatureRepository $featureRepository
     ) {
@@ -26,20 +25,6 @@ class FeatureService
             'project' => $project,
             'name' => $featureName,
         ]);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getFeatureValue(Feature $feature, Environment $environment): FeatureValue
-    {
-        foreach ($feature->getValues() as $value) {
-            if ($value->getEnvironment() === $environment) {
-                return $value;
-            }
-        }
-
-        throw new \Exception(self::ERROR_VALUE_NOT_SET_FOR_ENV, $feature->getId(), $feature->getName());
     }
 
     public function createFeature(Project $project, FeatureRequest $featureRequest): Feature

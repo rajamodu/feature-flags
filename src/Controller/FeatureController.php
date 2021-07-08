@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Environment;
+use App\Repository\FeatureValueRepository;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
 use App\Service\FeatureService;
@@ -24,7 +25,8 @@ class FeatureController extends AbstractApiController
         private AuthService $authService,
         private FeatureService $featureService,
         private ProjectService $projectService,
-        private EnvironmentService $environmentService
+        private EnvironmentService $environmentService,
+        private FeatureValueRepository $featureValueRepository
     ) {
     }
 
@@ -65,13 +67,19 @@ class FeatureController extends AbstractApiController
             );
         }
 
-        $value = $this->featureService->getFeatureValue($feature, $environment);
+        $featureValue = $this->featureValueRepository->findOneByFeatureAndEnvironment($feature, $environment);
+        if (!$featureValue) {
+            return $this->respondJsonError(
+                Response::HTTP_NOT_FOUND,
+                sprintf(self::ERROR_VALUE_NOT_SET_FOR_ENV, $feature->getId(), $environment->getName())
+            );
+        }
 
         return $this->createApiResponse([
             'status' => 'ok',
             'feature' => $feature->getName(),
             'environment' => $environment->getName(),
-            'enabled' => $value->isEnabled(),
+            'enabled' => $featureValue->isEnabled(),
         ]);
     }
 }
