@@ -27,7 +27,6 @@ class EnvironmentController extends AbstractApiController
         private AuthService $authService,
         private EnvironmentService $environmentService,
         private EnvironmentRepository $environmentRepository,
-        private ProjectRepository $projectRepository,
         private EnvironmentSerializer $environmentSerializer,
         private ValidatorInterface $validator
     ) {
