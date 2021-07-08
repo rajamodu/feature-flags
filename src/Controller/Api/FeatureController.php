@@ -6,10 +6,14 @@ namespace App\Controller\Api;
 
 use App\Controller\AbstractApiController;
 use App\Repository\EnvironmentRepository;
+use App\Repository\FeatureRepository;
 use App\Repository\ProjectRepository;
 use App\Service\Api\Request\EnvironmentRequest;
+use App\Service\Api\Request\FeatureRequest;
+use App\Service\Api\Serializer\FeatureSerializer;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
+use App\Service\FeatureService;
 use App\Service\Manage\Request\ProjectRequest;
 use App\Service\Api\Serializer\EnvironmentSerializer;
 use App\Service\Manage\Serializer\ProjectSerializer;
@@ -21,35 +25,35 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class EnvironmentController extends AbstractApiController
+class FeatureController extends AbstractApiController
 {
     public function __construct(
         private AuthService $authService,
-        private EnvironmentService $environmentService,
-        private EnvironmentRepository $environmentRepository,
-        private EnvironmentSerializer $environmentSerializer,
+        private FeatureService $featureService,
+        private FeatureRepository $featureRepository,
+        private FeatureSerializer $featureSerializer,
         private ValidatorInterface $validator
     ) {
     }
 
     /**
-     * @Route("/api/environments", name="getProjectEnvironments")
+     * @Route("/api/features", name="getProjectFeatures")
      */
-    public function getProjectEnvironments(Request $request): JsonResponse
+    public function getProjectFeatures(Request $request): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
         if (!$project) {
             return $this->respondNotFound();
         }
 
-        $environments = $this->environmentRepository->findAllByProject($project);
-        $data = $this->environmentSerializer->serializeArray($environments);
+        $environments = $this->featureRepository->findAllByProject($project);
+        $data = $this->featureSerializer->serializeArray($environments);
 
         return $this->createApiResponse($data);
     }
 
     /**
-     * @Route("/api/environment/{name}", name="getEnvironment", methods={"GET"})
+     * @Route("/api/feature/{name}", name="getFeature", methods={"GET"})
      */
     public function getByName(string $name): JsonResponse
     {
@@ -58,81 +62,81 @@ class EnvironmentController extends AbstractApiController
             return $this->respondNotFound();
         }
 
-        $environment = $this->environmentService->getEnvironment($project, $name);
-        if (!$environment) {
+        $feature = $this->featureService->getFeature($project, $name);
+        if (!$feature) {
             return $this->respondNotFound();
         }
 
-        $data = $this->environmentSerializer->serializeItem($environment);
+        $data = $this->featureSerializer->serializeItem($feature);
 
         return $this->createApiResponse($data);
     }
 
     /**
-     * @Route("/api/environment", name="createEnvironment", methods={"POST"})
+     * @Route("/api/feature", name="createFeature", methods={"POST"})
      * @ParamConverter(
-     *      "environmentRequest",
+     *      "featureRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\EnvironmentRequest"
+     *      class="App\Service\Api\Request\FeatureRequest"
      * )
      *
      * @throws \Exception
      */
-    public function create(EnvironmentRequest $environmentRequest): JsonResponse
+    public function create(FeatureRequest $featureRequest): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
         if (!$project) {
             return $this->respondNotFound();
         }
 
-        $validationErrors = $this->validator->validate($environmentRequest);
+        $validationErrors = $this->validator->validate($featureRequest);
         if ($validationErrors->count() > 0) {
             $errors = $this->getErrorMessages($validationErrors);
 
             return $this->respondValidationError($errors);
         }
 
-        $environment = $this->environmentService->createEnvironment($project, $environmentRequest);
-        $data = $this->environmentSerializer->serializeItem($environment);
+        $feature = $this->featureService->createFeature($project, $featureRequest);
+        $data = $this->featureSerializer->serializeItem($feature);
 
         return $this->createApiResponse($data);
     }
 
     /**
-     * @Route("/api/environment/{name}", name="updateEnvironment", methods={"POST"})
+     * @Route("/api/feature/{name}", name="updateFeature", methods={"POST"})
      * @ParamConverter(
-     *      "environmentRequest",
+     *      "featureRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\EnvironmentRequest"
+     *      class="App\Service\Api\Request\FeatureRequest"
      * )
      */
-    public function update(string $name, EnvironmentRequest $environmentRequest): JsonResponse
+    public function update(string $name, FeatureRequest $featureRequest): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
         if (!$project) {
             return $this->respondNotFound();
         }
 
-        $environment = $this->environmentService->getEnvironment($project, $name);
-        if (!$environment) {
+        $feature = $this->featureService->getFeature($project, $name);
+        if (!$feature) {
             return $this->respondNotFound();
         }
 
-        $validationErrors = $this->validator->validate($environmentRequest);
+        $validationErrors = $this->validator->validate($featureRequest);
         if ($validationErrors->count() > 0) {
             $errors = $this->getErrorMessages($validationErrors);
 
             return $this->respondValidationError($errors);
         }
 
-        $environment = $this->environmentService->updateEnvironment($environment, $environmentRequest);
-        $data = $this->environmentSerializer->serializeItem($environment);
+        $environment = $this->featureService->updateFeature($feature, $featureRequest);
+        $data = $this->featureSerializer->serializeItem($environment);
 
         return $this->createApiResponse($data);
     }
 
     /**
-     * @Route("/api/environment/{name}", name="deleteEnvironment", methods={"DELETE"})
+     * @Route("/api/feature/{name}", name="deleteFeature", methods={"DELETE"})
      */
     public function delete(string $name): JsonResponse
     {
@@ -141,12 +145,12 @@ class EnvironmentController extends AbstractApiController
             return $this->respondNotFound();
         }
 
-        $environment = $this->environmentService->getEnvironment($project, $name);
-        if (!$environment) {
+        $feature = $this->featureService->getFeature($project, $name);
+        if (!$feature) {
             return $this->respondNotFound();
         }
 
-        $this->environmentService->delete($environment);
+        $this->featureService->delete($feature);
 
         return new JsonResponse('', Response::HTTP_NO_CONTENT);
     }

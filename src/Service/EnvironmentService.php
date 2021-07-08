@@ -45,4 +45,9 @@ class EnvironmentService
 
         return $this->environmentRepository->save($environment);
     }
+
+    public function delete(Environment $environment): void
+    {
+        $this->environmentRepository->remove($environment);
+    }
 }
