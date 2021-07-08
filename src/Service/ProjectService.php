@@ -47,4 +47,9 @@ class ProjectService
 
         return $this->projectRepository->save($project);
     }
+
+    public function delete(Project $project): void
+    {
+        $this->projectRepository->remove($project);
+    }
 }

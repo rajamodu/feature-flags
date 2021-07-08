@@ -39,7 +39,7 @@ class ProjectController extends AbstractApiController
     }
 
     /**
-     * @Route("/manage/project/{id}", name="getProject")
+     * @Route("/manage/project/{id}", name="getProject", methods={"GET"})
      */
     public function getById(int $id): JsonResponse
     {
@@ -116,7 +116,7 @@ class ProjectController extends AbstractApiController
             return $this->respondNotFound();
         }
 
-        $this->projectRepository->remove($project);
+        $this->projectService->delete($project);
 
         return new JsonResponse('', Response::HTTP_NO_CONTENT);
     }

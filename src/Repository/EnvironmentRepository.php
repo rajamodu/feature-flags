@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Environment;
+use App\Entity\Project;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,5 +19,14 @@ class EnvironmentRepository extends AbstractRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Environment::class);
+    }
+
+    /**
+     * @param Project $project
+     * @return Environment[]
+     */
+    public function findAllByProject(Project $project): array
+    {
+        return $this->findBy(['project' => $project]);
     }
 }
