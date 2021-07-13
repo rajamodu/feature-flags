@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ProjectController extends AbstractApiController
+class ProjectController extends AbstractApiController implements RootTokenAuthenticatedController
 {
     public function __construct(
         private ProjectService $projectService,

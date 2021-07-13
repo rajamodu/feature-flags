@@ -10,7 +10,8 @@ use App\Repository\ProjectRepository;
 class AuthService
 {
     public function __construct(
-        private ProjectRepository $projectRepository
+        private ProjectRepository $projectRepository,
+        private string $rootToken
     ) {
     }
 
@@ -33,7 +34,7 @@ class AuthService
         return $project->getReadKey() === $this->getTokenFromGlobals();
     }
 
-    private function getTokenFromGlobals(): ?string
+    public function getTokenFromGlobals(): ?string
     {
         $token = $_SERVER['HTTP_AUTHORIZATION'] ?? null;
         if (!$token) {
@@ -44,5 +45,10 @@ class AuthService
         $token = trim($token);
 
         return $token;
+    }
+
+    public function validateRootToken(string $token): bool
+    {
+        return $token === $this->rootToken;
     }
 }
