@@ -6,12 +6,13 @@ namespace App\Service;
 
 use App\Entity\Project;
 use App\Repository\ProjectRepository;
-use App\Service\Manage\Request\ProjectRequest;
+use App\Service\Root\Request\ProjectRequest;
 
 class ProjectService
 {
     public function __construct(
-        private ProjectRepository $projectRepository
+        private ProjectRepository $projectRepository,
+        private ApiKeyGenerator $apiKeyGenerator,
     ) {
     }
 
@@ -30,8 +31,8 @@ class ProjectService
             ->setName($projectRequest->getName())
             ->setDescription($projectRequest->getDescription())
             ->setOwner($projectRequest->getOwner())
-            ->setManageKey('test') // @TODO implement keys generation
-            ->setReadKey('test') // @TODO implement keys generation
+            ->setManageKey($this->apiKeyGenerator->generateApiKey())
+            ->setReadKey($this->apiKeyGenerator->generateApiKey())
         ;
 
         return $this->projectRepository->save($project);
