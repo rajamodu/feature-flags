@@ -12,7 +12,6 @@ use App\Service\AuthService;
 use App\Service\EnvironmentService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -31,13 +30,9 @@ class EnvironmentController extends AbstractApiController implements ManageToken
     /**
      * @Route("/api/environments", name="getProjectEnvironments")
      */
-    public function getProjectEnvironments(Request $request): JsonResponse
+    public function getProjectEnvironments(): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $environments = $this->environmentRepository->findAllByProject($project);
         $data = $this->environmentSerializer->serializeArray($environments);
 
@@ -50,10 +45,6 @@ class EnvironmentController extends AbstractApiController implements ManageToken
     public function getByName(string $name): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();
@@ -76,11 +67,6 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      */
     public function create(EnvironmentRequest $environmentRequest): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $validationErrors = $this->validator->validate($environmentRequest);
         if ($validationErrors->count() > 0) {
             $errors = $this->getErrorMessages($validationErrors);
@@ -88,6 +74,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
             return $this->respondValidationError($errors);
         }
 
+        $project = $this->authService->getProjectByManageKey();
         $environment = $this->environmentService->createEnvironment($project, $environmentRequest);
         $data = $this->environmentSerializer->serializeItem($environment);
 
@@ -105,10 +92,6 @@ class EnvironmentController extends AbstractApiController implements ManageToken
     public function update(string $name, EnvironmentRequest $environmentRequest): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();
@@ -133,10 +116,6 @@ class EnvironmentController extends AbstractApiController implements ManageToken
     public function delete(string $name): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();

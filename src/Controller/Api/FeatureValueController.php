@@ -13,7 +13,6 @@ use App\Service\FeatureService;
 use App\Service\FeatureValueService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -41,10 +40,6 @@ class FeatureValueController extends AbstractApiController implements ManageToke
     public function setFeatureValue(string $name, FeatureValueRequest $featureValueRequest): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();

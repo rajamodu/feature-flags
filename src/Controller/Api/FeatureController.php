@@ -12,7 +12,6 @@ use App\Service\AuthService;
 use App\Service\FeatureService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -31,13 +30,9 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
     /**
      * @Route("/api/features", name="getProjectFeatures")
      */
-    public function getProjectFeatures(Request $request): JsonResponse
+    public function getProjectFeatures(): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $environments = $this->featureRepository->findAllByProject($project);
         $data = $this->featureSerializer->serializeArray($environments);
 
@@ -50,10 +45,6 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
     public function getByName(string $name): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();
@@ -76,11 +67,6 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      */
     public function create(FeatureRequest $featureRequest): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $validationErrors = $this->validator->validate($featureRequest);
         if ($validationErrors->count() > 0) {
             $errors = $this->getErrorMessages($validationErrors);
@@ -88,6 +74,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
             return $this->respondValidationError($errors);
         }
 
+        $project = $this->authService->getProjectByManageKey();
         $feature = $this->featureService->createFeature($project, $featureRequest);
         $data = $this->featureSerializer->serializeItem($feature);
 
@@ -105,10 +92,6 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
     public function update(string $name, FeatureRequest $featureRequest): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();
@@ -133,10 +116,6 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
     public function delete(string $name): JsonResponse
     {
         $project = $this->authService->getProjectByManageKey();
-        if (!$project) {
-            return $this->respondNotFound();
-        }
-
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();
