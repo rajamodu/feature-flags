@@ -10,6 +10,7 @@ use App\Service\Manage\Request\FeatureRequest;
 use App\Service\Manage\Serializer\FeatureSerializer;
 use App\Service\AuthService;
 use App\Service\FeatureService;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,7 +76,14 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
         }
 
         $project = $this->authService->getProjectByManageKey();
-        $feature = $this->featureService->createFeature($project, $featureRequest);
+
+        try {
+            $feature = $this->featureService->createFeature($project, $featureRequest);
+        }
+        catch (UniqueConstraintViolationException $exception) {
+            return $this->respondDuplicateError();
+        }
+
         $data = $this->featureSerializer->serializeItem($feature);
 
         return $this->createApiResponse($data);

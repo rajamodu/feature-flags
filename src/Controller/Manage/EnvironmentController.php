@@ -10,6 +10,7 @@ use App\Service\Manage\Request\EnvironmentRequest;
 use App\Service\Manage\Serializer\EnvironmentSerializer;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,7 +76,14 @@ class EnvironmentController extends AbstractApiController implements ManageToken
         }
 
         $project = $this->authService->getProjectByManageKey();
-        $environment = $this->environmentService->createEnvironment($project, $environmentRequest);
+
+        try {
+            $environment = $this->environmentService->createEnvironment($project, $environmentRequest);
+        }
+        catch (UniqueConstraintViolationException $exception) {
+            return $this->respondDuplicateError();
+        }
+
         $data = $this->environmentSerializer->serializeItem($environment);
 
         return $this->createApiResponse($data);

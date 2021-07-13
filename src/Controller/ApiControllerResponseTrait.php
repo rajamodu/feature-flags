@@ -22,6 +22,11 @@ trait ApiControllerResponseTrait
         return $this->respondJsonError(Response::HTTP_NOT_FOUND, 'Not found');
     }
 
+    protected function respondDuplicateError(): JsonResponse
+    {
+        return $this->respondJsonError(Response::HTTP_BAD_REQUEST, 'Duplicated entity');
+    }
+
     protected function respondJsonError(int $status, string $message): JsonResponse
     {
         return new JsonResponse(['status' => $status, 'message' => $message], Response::HTTP_NOT_FOUND);
