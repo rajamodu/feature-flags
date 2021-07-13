@@ -97,6 +97,9 @@ class Environment
         return $this;
     }
 
+    /**
+     * @return Collection|FeatureValue[]
+     */
     public function getFeaturesValues(): Collection
     {
         return $this->featuresValues;

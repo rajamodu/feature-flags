@@ -133,11 +133,17 @@ class Project
         return $this;
     }
 
+    /**
+     * @return Collection|Environment[]
+     */
     public function getEnvironments(): Collection
     {
         return $this->environments;
     }
 
+    /**
+     * @return Collection|Feature[]
+     */
     public function getFeatures(): Collection
     {
         return $this->features;
