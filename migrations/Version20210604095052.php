@@ -21,8 +21,8 @@ final class Version20210604095052 extends AbstractMigration
             'name' => 'demo',
             'description' => 'Project for demonstration purposes',
             'owner' => 'antonshell',
-            'read_key' => '0b6a0db7e751722d15ea4f28a7241bc13aba1c1ad8888fa038de313f2d8331209cd727171af8ac4f641296a9be91af42669037c5fd154996b057c3979b0d696d',
-            'manage_key' => '19d48377d692d7921326df8eb1d4d105ca58069fb0fed45e308caffffd53ccab4c82e6013020eb7cd230eaab67ef06c6abb3095bcf8eac0d0aa40d4c01a71012',
+            'read_key' => 'demo_read_key',
+            'manage_key' => 'demo_manage_key',
             'created_at' => date('Y-m-d H:i:s'),
         ]);
         $projectId = (int) $this->connection->lastInsertId();
