@@ -19,4 +19,11 @@ class ProjectRepository extends AbstractRepository
     {
         parent::__construct($registry, Project::class);
     }
+
+    public function findOneByManageKey(string $manageKey): ?Project
+    {
+        return $this->findOneBy([
+            'manageKey' => $manageKey,
+        ]);
+    }
 }

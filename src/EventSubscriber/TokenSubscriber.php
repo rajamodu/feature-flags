@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Controller\Api\ManageTokenAuthenticatedController;
 use App\Controller\Manage\RootTokenAuthenticatedController;
+use App\Repository\ProjectRepository;
 use App\Service\AuthService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -17,7 +19,8 @@ class TokenSubscriber implements EventSubscriberInterface
     private const ERROR_INVALID_TOKEN = 'Invalid access token provided';
 
     public function __construct(
-        private AuthService $authService
+        private AuthService $authService,
+        private ProjectRepository $projectRepository,
     ) {
     }
 
@@ -35,12 +38,26 @@ class TokenSubscriber implements EventSubscriberInterface
         }
 
         $token = $this->authService->getTokenFromGlobals();
+
+        // root token auth
         if ($controller[0] instanceof RootTokenAuthenticatedController) {
             if (!$token) {
                 throw new AccessDeniedHttpException(self::ERROR_MISSING_TOKEN);
             }
 
             if (!$this->authService->validateRootToken($token)) {
+                throw new AccessDeniedHttpException(self::ERROR_INVALID_TOKEN);
+            }
+        }
+
+        // manage token auth
+        if ($controller[0] instanceof ManageTokenAuthenticatedController) {
+            if (!$token) {
+                throw new AccessDeniedHttpException(self::ERROR_MISSING_TOKEN);
+            }
+
+            $project = $this->projectRepository->findOneByManageKey($token);
+            if (!$project) {
                 throw new AccessDeniedHttpException(self::ERROR_INVALID_TOKEN);
             }
         }

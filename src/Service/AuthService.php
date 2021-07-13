@@ -15,13 +15,11 @@ class AuthService
     ) {
     }
 
-    public function getProjectByManageKey(): ?Project
+    public function getProjectByManageKey(): Project
     {
-        $manageKey = $this->getTokenFromGlobals();
-
-        return $this->projectRepository->findOneBy([
-            'manageKey' => $manageKey,
-        ]);
+        return $this->projectRepository->findOneByManageKey(
+            $this->getTokenFromGlobals()
+        );
     }
 
     public function verifyReadAccessToken(Project $project): bool
