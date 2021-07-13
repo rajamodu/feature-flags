@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Environment;
+use App\Entity\FeatureValue;
 use App\Entity\Project;
 use App\Repository\EnvironmentRepository;
 use App\Service\Manage\Request\EnvironmentRequest;
+use Doctrine\ORM\EntityManagerInterface;
 
 class EnvironmentService
 {
     public function __construct(
-        private EnvironmentRepository $environmentRepository
+        private EnvironmentRepository $environmentRepository,
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -32,8 +35,22 @@ class EnvironmentService
             ->setDescription($environmentRequest->getDescription())
             ->setProject($project)
         ;
+        $this->entityManager->persist($environment);
 
-        return $this->environmentRepository->save($environment);
+        // create feature values
+        foreach ($project->getFeatures() as $feature) {
+            $featureValue = new FeatureValue();
+            $featureValue
+                ->setFeature($feature)
+                ->setEnvironment($environment)
+                ->setEnabled(true) // @TODO implement copying from other environment
+            ;
+            $this->entityManager->persist($featureValue);
+        }
+
+        $this->entityManager->flush();
+
+        return $environment;
     }
 
     public function updateEnvironment(Environment $environment, EnvironmentRequest $environmentRequest): Environment
@@ -48,6 +65,11 @@ class EnvironmentService
 
     public function delete(Environment $environment): void
     {
-        $this->environmentRepository->remove($environment);
+        foreach ($environment->getFeaturesValues() as $featuresValue) {
+            $this->entityManager->remove($featuresValue);
+        }
+
+        $this->entityManager->remove($environment);
+        $this->entityManager->flush();
     }
 }
