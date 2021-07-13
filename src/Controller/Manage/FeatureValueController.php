@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Controller\Manage;
 
 use App\Controller\AbstractApiController;
 use App\Repository\FeatureValueRepository;
-use App\Service\Api\Request\FeatureValueRequest;
+use App\Service\Manage\Request\FeatureValueRequest;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
 use App\Service\FeatureService;
@@ -34,7 +34,7 @@ class FeatureValueController extends AbstractApiController implements ManageToke
      * @ParamConverter(
      *      "featureValueRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\FeatureValueRequest"
+     *      class="App\Service\Manage\Request\FeatureValueRequest"
      * )
      */
     public function setFeatureValue(string $name, FeatureValueRequest $featureValueRequest): JsonResponse

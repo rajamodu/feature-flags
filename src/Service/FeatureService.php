@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Entity\Feature;
 use App\Entity\Project;
 use App\Repository\FeatureRepository;
-use App\Service\Api\Request\FeatureRequest;
+use App\Service\Manage\Request\FeatureRequest;
 
 class FeatureService
 {

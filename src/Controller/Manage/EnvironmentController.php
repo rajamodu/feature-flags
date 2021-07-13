@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Controller\Manage;
 
 use App\Controller\AbstractApiController;
 use App\Repository\EnvironmentRepository;
-use App\Service\Api\Request\EnvironmentRequest;
-use App\Service\Api\Serializer\EnvironmentSerializer;
+use App\Service\Manage\Request\EnvironmentRequest;
+use App\Service\Manage\Serializer\EnvironmentSerializer;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -60,7 +60,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      * @ParamConverter(
      *      "environmentRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\EnvironmentRequest"
+     *      class="App\Service\Manage\Request\EnvironmentRequest"
      * )
      *
      * @throws \Exception
@@ -86,7 +86,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      * @ParamConverter(
      *      "environmentRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\EnvironmentRequest"
+     *      class="App\Service\Manage\Request\EnvironmentRequest"
      * )
      */
     public function update(string $name, EnvironmentRequest $environmentRequest): JsonResponse

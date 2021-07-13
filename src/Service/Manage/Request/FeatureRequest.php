@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Api\Request;
+namespace App\Service\Manage\Request;
 
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;

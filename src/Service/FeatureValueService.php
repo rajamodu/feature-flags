@@ -6,7 +6,7 @@ namespace App\Service;
 
 use App\Entity\FeatureValue;
 use App\Repository\FeatureValueRepository;
-use App\Service\Api\Request\FeatureValueRequest;
+use App\Service\Manage\Request\FeatureValueRequest;
 
 class FeatureValueService
 {

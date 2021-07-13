@@ -7,7 +7,7 @@ namespace App\Service;
 use App\Entity\Environment;
 use App\Entity\Project;
 use App\Repository\EnvironmentRepository;
-use App\Service\Api\Request\EnvironmentRequest;
+use App\Service\Manage\Request\EnvironmentRequest;
 
 class EnvironmentService
 {

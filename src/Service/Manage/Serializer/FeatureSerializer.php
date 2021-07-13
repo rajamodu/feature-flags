@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Api\Serializer;
+namespace App\Service\Manage\Serializer;
 
 use App\Entity\Feature;
 use App\Service\AbstractSerializer;

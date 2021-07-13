@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api;
+namespace App\Controller\Manage;
 
 use App\Controller\AbstractApiController;
 use App\Repository\FeatureRepository;
-use App\Service\Api\Request\FeatureRequest;
-use App\Service\Api\Serializer\FeatureSerializer;
+use App\Service\Manage\Request\FeatureRequest;
+use App\Service\Manage\Serializer\FeatureSerializer;
 use App\Service\AuthService;
 use App\Service\FeatureService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -60,7 +60,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      * @ParamConverter(
      *      "featureRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\FeatureRequest"
+     *      class="App\Service\Manage\Request\FeatureRequest"
      * )
      *
      * @throws \Exception
@@ -86,7 +86,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      * @ParamConverter(
      *      "featureRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Api\Request\FeatureRequest"
+     *      class="App\Service\Manage\Request\FeatureRequest"
      * )
      */
     public function update(string $name, FeatureRequest $featureRequest): JsonResponse
