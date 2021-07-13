@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use App\Controller\Api\ManageTokenAuthenticatedController;
-use App\Controller\Manage\RootTokenAuthenticatedController;
+use App\Controller\Root\RootTokenAuthenticatedController;
 use App\Repository\ProjectRepository;
 use App\Service\AuthService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

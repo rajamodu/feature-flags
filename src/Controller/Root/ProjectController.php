@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Manage;
+namespace App\Controller\Root;
 
 use App\Controller\AbstractApiController;
 use App\Repository\ProjectRepository;
-use App\Service\Manage\Request\ProjectRequest;
-use App\Service\Manage\Serializer\ProjectSerializer;
+use App\Service\Root\Request\ProjectRequest;
+use App\Service\Root\Serializer\ProjectSerializer;
 use App\Service\ProjectService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,7 +57,7 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
      * @ParamConverter(
      *      "projectRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Manage\Request\ProjectRequest"
+     *      class="App\Service\Root\Request\ProjectRequest"
      * )
      *
      * @throws \Exception
@@ -82,7 +82,7 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
      * @ParamConverter(
      *      "projectRequest",
      *      converter="fos_rest.request_body",
-     *      class="App\Service\Manage\Request\ProjectRequest"
+     *      class="App\Service\Root\Request\ProjectRequest"
      * )
      */
     public function update(int $id, ProjectRequest $projectRequest): JsonResponse

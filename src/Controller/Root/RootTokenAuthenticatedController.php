@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Manage;
+namespace App\Controller\Root;
 
 interface RootTokenAuthenticatedController
 {

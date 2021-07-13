@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Manage\Serializer;
+namespace App\Service\Root\Serializer;
 
 use App\Entity\Project;
 use App\Service\AbstractSerializer;
