@@ -61,6 +61,7 @@ jobs:
           envkey_APP_ENV: prod
           envkey_APP_DEBUG: false
           envkey_APP_SECRET: ${{ secrets.APP_SECRET }}
+          envkey_ROOT_TOKEN: ${{ secrets.ROOT_TOKEN }}
           envkey_DB_USER: ${{ secrets.DB_USER }}
           envkey_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           envkey_DB_HOST: localhost
