@@ -3,12 +3,24 @@
 
 use App\Kernel;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
 
 if (!is_file(dirname(__DIR__).'/vendor/autoload_runtime.php')) {
     throw new LogicException('Symfony Runtime is missing. Try running "composer require symfony/runtime".');
 }
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
+
+$input = new ArgvInput();
+if (null !== $env = $input->getParameterOption(['--env', '-e'], null, true)) {
+    putenv('APP_ENV='.$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = $env);
+}
+
+// customize database credentials for test environment
+if(isset($_ENV['DOCKER_ENVIRONMENT']) && $_ENV['APP_ENV'] === 'test') {
+    $_ENV['DATABASE_URL'] = 'mysql://root:root@database:3306/feature_flags_test?serverVersion=5.7';
+    $_ENV['DB_NAME'] = 'feature_flags_test';
+}
 
 return function (array $context) {
     $kernel = new Kernel($context['APP_ENV'], (bool) $context['APP_DEBUG']);

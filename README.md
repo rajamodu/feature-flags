@@ -67,7 +67,13 @@ See Swagger API docs.
 
 # Tests
 
-1 . Run tests
+1 . Init testing environment
+
+```
+docker-compose exec php-fpm composer init-testing-environment
+```
+
+2 . Run tests
 
 Local environment:
 ```
