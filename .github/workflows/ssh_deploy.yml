@@ -89,7 +89,6 @@ jobs:
           passphrase: ''
           script: |
             rsync -a --exclude 'var' --delete /var/www/deployment/feature-flags/ /var/www/feature-flags/
-            cd /var/www/feature-flags && composer build
             cd /var/www/feature-flags && php bin/console cache:clear
 
 
