@@ -49,6 +49,7 @@ class EnvironmentService
         }
 
         $this->entityManager->flush();
+        $this->entityManager->refresh($environment);
 
         return $environment;
     }

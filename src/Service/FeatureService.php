@@ -49,6 +49,7 @@ class FeatureService
         }
 
         $this->entityManager->flush();
+        $this->entityManager->refresh($feature);
 
         return $feature;
     }
