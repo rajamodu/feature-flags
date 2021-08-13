@@ -44,7 +44,7 @@ docker-compose exec php-fpm php bin/console doctrine:migrations:migrate
 
 There is a Swagger API docs.
 
-1 . Healthcheck
+1 . Health check
 
 ```
 curl --request GET \
@@ -64,6 +64,23 @@ curl --request GET \
 See Swagger API docs.
 
 # Demo
+
+There is a demo instance available: [https://feature-flags.antonshell.me](https://feature-flags.antonshell.me)
+
+1 . Health check
+
+```
+curl --request GET \
+  --url https://feature-flags.antonshell.me/
+```
+
+2 . Get feature value
+
+```
+curl --request GET \
+  --url https://feature-flags.antonshell.me/feature/antonshell/demo/feature1 \
+  --header 'Authorization: bearer demo_read_key'
+```
 
 # Tests
 
