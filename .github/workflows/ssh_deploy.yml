@@ -92,5 +92,6 @@ jobs:
             rsync -a --exclude 'var' --delete /var/www/deployment/feature-flags/ /var/www/feature-flags/
             cd /var/www/feature-flags && php bin/console doctrine:migrations:migrate --no-interaction
             cd /var/www/feature-flags && php bin/console cache:clear
+            cd /var/www/feature-flags && chmod -R 777 -R var
 
 
