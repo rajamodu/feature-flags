@@ -29,6 +29,6 @@ trait ApiControllerResponseTrait
 
     protected function respondJsonError(int $status, string $message): JsonResponse
     {
-        return new JsonResponse(['status' => $status, 'message' => $message], Response::HTTP_NOT_FOUND);
+        return new JsonResponse(['status' => $status, 'message' => $message], $status);
     }
 }
