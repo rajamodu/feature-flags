@@ -74,6 +74,7 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
 
         try {
             $project = $this->projectService->createProject($projectRequest);
+            // $project = $this->projectRepository->find($project->getId());
         }
         catch (UniqueConstraintViolationException $exception) {
             return $this->respondDuplicateError();

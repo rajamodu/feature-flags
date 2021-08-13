@@ -89,6 +89,11 @@ class ProjectService
 
         $this->entityManager->flush();
 
+        $this->entityManager->refresh($project);
+        foreach ($project->getFeatures() as $feature) {
+            $this->entityManager->refresh($feature);
+        }
+
         return $project;
     }
 
