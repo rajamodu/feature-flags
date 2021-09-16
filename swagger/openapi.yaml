@@ -10,10 +10,21 @@ info:
     url: https://antonshell.me/
 servers:
   - url: https://feature-flags.antonshell.me/
+# 1) Define the security scheme type (HTTP bearer)
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+# 2) Apply the security globally to all operations
+security:
+  - bearerAuth: []         # use the same name as above
 paths:
   /:
     get:
       description: Healthcheck. Does nothing
+      security: []
       responses:
         '200':
           description: Healthcheck response
@@ -34,6 +45,8 @@ paths:
   /feature/{owner}/{project}/{feature}/{environment}:
     get:
       description: Get feature value
+      security:
+        - bearerAuth: [ ]
       parameters:
         - in: path
           name: owner

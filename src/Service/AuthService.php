@@ -39,7 +39,7 @@ class AuthService
             return null;
         }
 
-        $token = str_replace('bearer', '', $token);
+        $token = str_replace(['bearer', 'Bearer'], '', $token);
         $token = trim($token);
 
         return $token;
