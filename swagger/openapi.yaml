@@ -30,7 +30,7 @@ paths:
                 '0':
                   value: '{"status":"ok","service":"feature flag service"}'
       tags:
-        - main
+        - Main
   /feature/{owner}/{project}/{feature}/{environment}:
     get:
       description: Get feature value
@@ -85,11 +85,11 @@ paths:
                   value: >-
                     {"status":"ok","feature":"feature1","environment":"prod","enabled":true}
       tags:
-        - main
+        - Main
   /manage/project/{projectId}:
     post:
       tags:
-        - project
+        - Project
       description: Update project
       parameters:
         - in: path
@@ -177,7 +177,7 @@ paths:
                     purposes","values":{"prod":true,"stage":true,"dev":true}}]}
     delete:
       tags:
-        - project
+        - Project
       description: Delete project
       parameters:
         - in: path
@@ -192,7 +192,7 @@ paths:
           description: Delete project response
     get:
       tags:
-        - project
+        - Project
       description: Get project by id
       parameters:
         - in: path
@@ -268,7 +268,7 @@ paths:
   /manage/project:
     post:
       tags:
-        - project
+        - Project
       description: Create project
       requestBody:
         content:
@@ -302,7 +302,7 @@ paths:
                   value: '{"status":400,"message":"Duplicated entity"}'
     get:
       tags:
-        - project
+        - Project
       description: Auto generated using Swagger Inspector
       responses:
         '200':
@@ -322,7 +322,7 @@ paths:
   /api/environment:
     post:
       tags:
-        - environment
+        - Environment
       description: Crerate environment
       requestBody:
         content:
@@ -374,7 +374,7 @@ paths:
         - url: http://127.0.0.1:16580
     get:
       tags:
-        - environment
+        - Environment
       description: Get environments
       responses:
         '200':
@@ -394,7 +394,7 @@ paths:
   /api/environment/{name}:
     get:
       tags:
-        - environment
+        - Environment
       parameters:
         - in: path
           name: name
@@ -436,7 +436,7 @@ paths:
                     environment","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
     post:
       tags:
-        - environment
+        - Environment
       parameters:
         - in: path
           name: name
@@ -497,7 +497,7 @@ paths:
 
     delete:
       tags:
-        - environment
+        - Environment
       parameters:
         - in: path
           name: name
@@ -513,7 +513,7 @@ paths:
   /api/feature/{name}:
     post:
       tags:
-        - feature
+        - Feature
       parameters:
         - in: path
           name: name
@@ -572,7 +572,7 @@ paths:
                     555","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}
     delete:
       tags:
-        - feature
+        - Feature
       parameters:
         - in: path
           name: name
@@ -587,7 +587,7 @@ paths:
           description: Delete feature response
     get:
       tags:
-        - feature
+        - Feature
       parameters:
         - in: path
           name: name
@@ -631,7 +631,7 @@ paths:
   /api/feature:
     post:
       tags:
-        - feature
+        - Feature
       description: Create feature
       requestBody:
         content:
@@ -684,7 +684,7 @@ paths:
         - url: http://127.0.0.1:16580
     get:
       tags:
-        - feature
+        - Feature
       description: Get all features
       responses:
         '200':
@@ -704,7 +704,7 @@ paths:
   /api/feature/{name}/value:
     post:
       tags:
-        - feature
+        - Feature
       parameters:
         - in: path
           name: name
