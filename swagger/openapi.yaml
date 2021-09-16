@@ -11,10 +11,9 @@ info:
 servers:
   - url: https://feature-flags.antonshell.me/
 paths:
-  "/":
+  /:
     get:
       description: Healthcheck. Does nothing
-      operationId: MainController::index
       responses:
         '200':
           description: Healthcheck response
@@ -23,11 +22,67 @@ paths:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: string
-                    default: ok
                   service:
                     type: string
-                    default: feature flag service
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: '{"status":"ok","service":"feature flag service"}'
+      tags:
+        - main
+  /feature/{owner}/{project}/{feature}/{environment}:
+    get:
+      description: Get feature value
+      parameters:
+        - in: path
+          name: owner
+          description: Project owner
+          required: true
+          schema:
+            type: string
+            example: antonshell
+        - in: path
+          name: project
+          description: Project name
+          required: true
+          schema:
+            type: string
+            example: demo
+        - in: path
+          name: feature
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+        - in: path
+          name: environment
+          description: Environment name
+          required: false
+          schema:
+            type: string
+            default: prod
+            example: prod
+      responses:
+        '200':
+          description: Feature value response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  environment:
+                    type: string
+                  feature:
+                    type: string
+                  enabled:
+                    type: boolean
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: >-
+                    {"status":"ok","feature":"feature1","environment":"prod","enabled":true}
       tags:
         - main
