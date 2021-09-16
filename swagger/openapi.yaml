@@ -10,16 +10,25 @@ info:
     url: https://antonshell.me/
 servers:
   - url: https://feature-flags.antonshell.me/
-# 1) Define the security scheme type (HTTP bearer)
+# bearer auth docs: https://swagger.io/docs/specification/authentication/bearer-authentication/
 components:
   securitySchemes:
-    bearerAuth:            # arbitrary name for the security scheme
+    bearerAuthRoot:
       type: http
       scheme: bearer
-      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
-# 2) Apply the security globally to all operations
+      bearerFormat: JWT
+    bearerAuthManage:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bearerAuthRead:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
 security:
-  - bearerAuth: []         # use the same name as above
+  - bearerAuthRoot: []
+  - bearerAuthManage: []
+  - bearerAuthRead: []
 paths:
   /:
     get:
@@ -46,7 +55,7 @@ paths:
     get:
       description: Get feature value
       security:
-        - bearerAuth: [ ]
+        - bearerAuthRead: []
       parameters:
         - in: path
           name: owner
@@ -104,6 +113,8 @@ paths:
       tags:
         - Project
       description: Update project
+      security:
+        - bearerAuthRoot: []
       parameters:
         - in: path
           name: projectId
@@ -192,6 +203,8 @@ paths:
       tags:
         - Project
       description: Delete project
+      security:
+        - bearerAuthRoot: []
       parameters:
         - in: path
           name: projectId
@@ -207,6 +220,8 @@ paths:
       tags:
         - Project
       description: Get project by id
+      security:
+        - bearerAuthRoot: []
       parameters:
         - in: path
           name: projectId
@@ -283,6 +298,8 @@ paths:
       tags:
         - Project
       description: Create project
+      security:
+        - bearerAuthRoot: []
       requestBody:
         content:
           application/json:
@@ -317,6 +334,8 @@ paths:
       tags:
         - Project
       description: Auto generated using Swagger Inspector
+      security:
+        - bearerAuthRoot: []
       responses:
         '200':
           description: Auto generated using Swagger Inspector
@@ -337,6 +356,8 @@ paths:
       tags:
         - Environment
       description: Crerate environment
+      security:
+        - bearerAuthManage: []
       requestBody:
         content:
           application/json:
@@ -389,6 +410,8 @@ paths:
       tags:
         - Environment
       description: Get environments
+      security:
+        - bearerAuthManage: []
       responses:
         '200':
           description: Get environments response
@@ -417,6 +440,8 @@ paths:
             type: string
             example: prod
       description: Get environment by name
+      security:
+        - bearerAuthManage: []
       responses:
         '200':
           description: Get environment response
@@ -459,6 +484,8 @@ paths:
             type: string
             example: prod
       description: Update environment by name
+      security:
+        - bearerAuthManage: []
       requestBody:
         content:
           application/json:
@@ -520,6 +547,8 @@ paths:
             type: string
             example: prod
       description: Delete environment by name
+      security:
+        - bearerAuthManage: []
       responses:
         '204':
           description: Delete environment response
@@ -536,6 +565,8 @@ paths:
             type: string
             example: feature1
       description: Update feature by name
+      security:
+        - bearerAuthManage: []
       requestBody:
         content:
           application/json:
@@ -595,6 +626,8 @@ paths:
             type: string
             example: feature1
       description: Delete feature by name
+      security:
+        - bearerAuthManage: []
       responses:
         '204':
           description: Delete feature response
@@ -610,6 +643,8 @@ paths:
             type: string
             example: feature1
       description: Get feature by name
+      security:
+        - bearerAuthManage: []
       responses:
         '200':
           description: Get feature response
@@ -646,6 +681,8 @@ paths:
       tags:
         - Feature
       description: Create feature
+      security:
+        - bearerAuthManage: []
       requestBody:
         content:
           application/json:
@@ -699,6 +736,8 @@ paths:
       tags:
         - Feature
       description: Get all features
+      security:
+        - bearerAuthManage: []
       responses:
         '200':
           description: Get all features response
@@ -727,6 +766,8 @@ paths:
             type: string
             example: feature1
       description: Update teature value
+      security:
+        - bearerAuthManage: []
       requestBody:
         content:
           application/json:
