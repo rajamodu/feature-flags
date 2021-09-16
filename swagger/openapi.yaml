@@ -318,3 +318,195 @@ paths:
                     [{"id":1,"name":"demo","description":"Project for
                     demonstration
                     purposes","owner":"antonshell"},{"id":20,"name":"project-2","description":"project-222","owner":"antonshell"}]
+
+  /api/environment:
+    post:
+      tags:
+        - environment
+      description: Crerate environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "qa2",
+                    "description": "QA2"
+                  }
+      responses:
+        '200':
+          description: Crerate environment response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: object
+                    properties:
+                      feature2:
+                        type: boolean
+                      feature3:
+                        type: boolean
+                      feature4:
+                        type: boolean
+                      feature1:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":49,"name":"qa2","description":"QA2","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
+      servers:
+        - url: http://127.0.0.1:16580
+    get:
+      tags:
+        - environment
+      description: Get environments
+      responses:
+        '200':
+          description: Get environments response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"id":1,"name":"prod","description":"Production
+                    environment"},{"id":2,"name":"stage","description":"Staging
+                    environment"},{"id":3,"name":"dev","description":"Development
+                    environment"},{"id":39,"name":"qa1","description":"QA1"}]
+  /api/environment/{name}:
+    get:
+      tags:
+        - environment
+      parameters:
+        - in: path
+          name: name
+          description: Environment name
+          required: true
+          schema:
+            type: string
+            example: prod
+      description: Get environment by name
+      responses:
+        '200':
+          description: Get environment response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: object
+                    properties:
+                      feature2:
+                        type: boolean
+                      feature3:
+                        type: boolean
+                      feature4:
+                        type: boolean
+                      feature1:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":1,"name":"prod","description":"Production
+                    environment","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
+    post:
+      tags:
+        - environment
+      parameters:
+        - in: path
+          name: name
+          description: Environment name
+          required: true
+          schema:
+            type: string
+            example: prod
+      description: Update environment by name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "qa2",
+                    "description": "QA2 updated"
+                  }
+      responses:
+        '200':
+          description: Update environment reaponse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: object
+                    properties:
+                      feature2:
+                        type: boolean
+                      feature3:
+                        type: boolean
+                      feature4:
+                        type: boolean
+                      feature1:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":49,"name":"qa2","description":"QA2
+                    updated","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
+
+
+    delete:
+      tags:
+        - environment
+      parameters:
+        - in: path
+          name: name
+          description: Environment name
+          required: true
+          schema:
+            type: string
+            example: prod
+      description: Delete environment by name
+      responses:
+        '204':
+          description: Delete environment response
