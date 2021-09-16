@@ -86,3 +86,235 @@ paths:
                     {"status":"ok","feature":"feature1","environment":"prod","enabled":true}
       tags:
         - main
+  /manage/project/{projectId}:
+    post:
+      tags:
+        - project
+      description: Update project
+      parameters:
+        - in: path
+          name: projectId
+          description: Project id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "project-3",
+                    "description": "project-333",
+                    "owner": "antonshell"
+                  }
+      responses:
+        '200':
+          description: Update project response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  owner:
+                    type: string
+                  features:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        values:
+                          type: object
+                          properties:
+                            prod:
+                              type: boolean
+                            stage:
+                              type: boolean
+                            dev:
+                              type: boolean
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  manage_key:
+                    type: string
+                  environments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  read_key:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":22,"name":"project-3","description":"project-333","owner":"antonshell","read_key":"50f244b78e1b8d66f1d17f6abd1f966315f46ba93b6b10966aaa511b0bbd8508d81e68ec0707a994c4b0017cd5abf5955c020244ab46c8926dea50adf3d70d00","manage_key":"d134c85ac7693534cd75c869780d2562e68a33a65f723fd1f60817fba330db1ab7835404be367ac04c5183f738fa137e7a3d02a590ad5307f73ad834b5d1dd9a","environments":[{"name":"prod","description":"Production
+                    environment"},{"name":"stage","description":"Staging
+                    environment"},{"name":"dev","description":"Development
+                    environment"}],"features":[{"name":"demo-feature","description":"Feature
+                    for demonstration
+                    purposes","values":{"prod":true,"stage":true,"dev":true}}]}
+    delete:
+      tags:
+        - project
+      description: Delete project
+      parameters:
+        - in: path
+          name: projectId
+          description: Project id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Delete project response
+    get:
+      tags:
+        - project
+      description: Get project by id
+      parameters:
+        - in: path
+          name: projectId
+          description: Project id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Get project response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  owner:
+                    type: string
+                  features:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        values:
+                          type: object
+                          properties:
+                            qa1:
+                              type: boolean
+                            prod:
+                              type: boolean
+                            stage:
+                              type: boolean
+                            dev:
+                              type: boolean
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  manage_key:
+                    type: string
+                  environments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  read_key:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":1,"name":"demo","description":"Project for
+                    demonstration
+                    purposes","owner":"antonshell","read_key":"demo_read_key","manage_key":"demo_manage_key","environments":[{"name":"prod","description":"Production
+                    environment"},{"name":"stage","description":"Staging
+                    environment"},{"name":"dev","description":"Development
+                    environment"},{"name":"qa1","description":"QA1"}],"features":[{"name":"feature1","description":"Demo
+                    project feature
+                    1","values":{"prod":true,"stage":false,"dev":false,"qa1":true}},{"name":"feature2","description":"Demo
+                    project feature
+                    2","values":{"prod":true,"stage":false,"dev":true,"qa1":true}},{"name":"feature3","description":"Feature
+                    3","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}]}
+  /manage/project:
+    post:
+      tags:
+        - project
+      description: Create project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: "{\n  \"name\": \"project-2\",\n\t\"description\": \"Project 2\",\n\t\"owner\": \"antonshell\"\n}"
+      responses:
+        '400':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: integer
+              examples:
+                '0':
+                  value: '{"status":400,"message":"Duplicated entity"}'
+    get:
+      tags:
+        - project
+      description: Auto generated using Swagger Inspector
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"id":1,"name":"demo","description":"Project for
+                    demonstration
+                    purposes","owner":"antonshell"},{"id":20,"name":"project-2","description":"project-222","owner":"antonshell"}]
