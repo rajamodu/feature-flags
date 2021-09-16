@@ -510,3 +510,244 @@ paths:
       responses:
         '204':
           description: Delete environment response
+  /api/feature/{name}:
+    post:
+      tags:
+        - feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Update feature by name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "feature5",
+                    "description": "Feature 555"
+                  }
+      responses:
+        '200':
+          description: Update feature response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  values:
+                    type: object
+                    properties:
+                      qa1:
+                        type: boolean
+                      prod:
+                        type: boolean
+                      stage:
+                        type: boolean
+                      dev:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":30,"name":"feature5","description":"Feature
+                    555","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}
+    delete:
+      tags:
+        - feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Delete feature by name
+      responses:
+        '204':
+          description: Delete feature response
+    get:
+      tags:
+        - feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Get feature by name
+      responses:
+        '200':
+          description: Get feature response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  values:
+                    type: object
+                    properties:
+                      qa1:
+                        type: boolean
+                      prod:
+                        type: boolean
+                      stage:
+                        type: boolean
+                      dev:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":1,"name":"feature1","description":"Demo project
+                    feature
+                    1","values":{"prod":true,"stage":false,"dev":false,"qa1":true}}
+  /api/feature:
+    post:
+      tags:
+        - feature
+      description: Create feature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "feature5",
+                    "description": "Feature 5"
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  values:
+                    type: object
+                    properties:
+                      qa1:
+                        type: boolean
+                      prod:
+                        type: boolean
+                      stage:
+                        type: boolean
+                      dev:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":30,"name":"feature5","description":"Feature
+                    5","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}
+      servers:
+        - url: http://127.0.0.1:16580
+    get:
+      tags:
+        - feature
+      description: Get all features
+      responses:
+        '200':
+          description: Get all features response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"id":1,"name":"feature1","description":"Demo project
+                    feature 1"},{"id":2,"name":"feature2","description":"Demo
+                    project feature
+                    2"},{"id":26,"name":"feature3","description":"Feature 3"}]
+  /api/feature/{name}/value:
+    post:
+      tags:
+        - feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Update teature value
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                environment:
+                  type: string
+                enabled:
+                  type: boolean
+            examples:
+              '0':
+                value: |-
+                  {
+                    "enabled": true,
+                    "environment": "prod"
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  environment:
+                    type: string
+                  feature:
+                    type: string
+                  enabled:
+                    type: boolean
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: >-
+                    {"status":"ok","feature":"feature5","environment":"prod","enabled":true}
