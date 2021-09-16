@@ -116,6 +116,11 @@ Docker environment:
 docker-compose exec php-fpm composer cs-fixer src
 ```
 
+# API documentation - swagger
+
+Docker environment:
+[http://127.0.0.1:16582/](http://127.0.0.1:16582/)
+
 # Setup xdebug (Docker)
 
 [https://blog.denisbondar.com/post/phpstorm_docker_xdebug](https://blog.denisbondar.com/post/phpstorm_docker_xdebug)
