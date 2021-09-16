@@ -1,0 +1,753 @@
+---
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Feature flags service API
+  description: There is an API for Feature flags service
+  contact:
+    name: Anton Shelyganov
+    email: antonshell@yandex.ru
+    url: https://antonshell.me/
+servers:
+  - url: https://feature-flags.antonshell.me/
+paths:
+  /:
+    get:
+      description: Healthcheck. Does nothing
+      responses:
+        '200':
+          description: Healthcheck response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  service:
+                    type: string
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: '{"status":"ok","service":"feature flag service"}'
+      tags:
+        - Main
+  /feature/{owner}/{project}/{feature}/{environment}:
+    get:
+      description: Get feature value
+      parameters:
+        - in: path
+          name: owner
+          description: Project owner
+          required: true
+          schema:
+            type: string
+            example: antonshell
+        - in: path
+          name: project
+          description: Project name
+          required: true
+          schema:
+            type: string
+            example: demo
+        - in: path
+          name: feature
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+        - in: path
+          name: environment
+          description: Environment name
+          required: false
+          schema:
+            type: string
+            default: prod
+            example: prod
+      responses:
+        '200':
+          description: Feature value response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  environment:
+                    type: string
+                  feature:
+                    type: string
+                  enabled:
+                    type: boolean
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: >-
+                    {"status":"ok","feature":"feature1","environment":"prod","enabled":true}
+      tags:
+        - Main
+  /manage/project/{projectId}:
+    post:
+      tags:
+        - Project
+      description: Update project
+      parameters:
+        - in: path
+          name: projectId
+          description: Project id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "project-3",
+                    "description": "project-333",
+                    "owner": "antonshell"
+                  }
+      responses:
+        '200':
+          description: Update project response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  owner:
+                    type: string
+                  features:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        values:
+                          type: object
+                          properties:
+                            prod:
+                              type: boolean
+                            stage:
+                              type: boolean
+                            dev:
+                              type: boolean
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  manage_key:
+                    type: string
+                  environments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  read_key:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":22,"name":"project-3","description":"project-333","owner":"antonshell","read_key":"50f244b78e1b8d66f1d17f6abd1f966315f46ba93b6b10966aaa511b0bbd8508d81e68ec0707a994c4b0017cd5abf5955c020244ab46c8926dea50adf3d70d00","manage_key":"d134c85ac7693534cd75c869780d2562e68a33a65f723fd1f60817fba330db1ab7835404be367ac04c5183f738fa137e7a3d02a590ad5307f73ad834b5d1dd9a","environments":[{"name":"prod","description":"Production
+                    environment"},{"name":"stage","description":"Staging
+                    environment"},{"name":"dev","description":"Development
+                    environment"}],"features":[{"name":"demo-feature","description":"Feature
+                    for demonstration
+                    purposes","values":{"prod":true,"stage":true,"dev":true}}]}
+    delete:
+      tags:
+        - Project
+      description: Delete project
+      parameters:
+        - in: path
+          name: projectId
+          description: Project id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Delete project response
+    get:
+      tags:
+        - Project
+      description: Get project by id
+      parameters:
+        - in: path
+          name: projectId
+          description: Project id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Get project response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  owner:
+                    type: string
+                  features:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        values:
+                          type: object
+                          properties:
+                            qa1:
+                              type: boolean
+                            prod:
+                              type: boolean
+                            stage:
+                              type: boolean
+                            dev:
+                              type: boolean
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  manage_key:
+                    type: string
+                  environments:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  read_key:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":1,"name":"demo","description":"Project for
+                    demonstration
+                    purposes","owner":"antonshell","read_key":"demo_read_key","manage_key":"demo_manage_key","environments":[{"name":"prod","description":"Production
+                    environment"},{"name":"stage","description":"Staging
+                    environment"},{"name":"dev","description":"Development
+                    environment"},{"name":"qa1","description":"QA1"}],"features":[{"name":"feature1","description":"Demo
+                    project feature
+                    1","values":{"prod":true,"stage":false,"dev":false,"qa1":true}},{"name":"feature2","description":"Demo
+                    project feature
+                    2","values":{"prod":true,"stage":false,"dev":true,"qa1":true}},{"name":"feature3","description":"Feature
+                    3","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}]}
+  /manage/project:
+    post:
+      tags:
+        - Project
+      description: Create project
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                owner:
+                  type: string
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: "{\n  \"name\": \"project-2\",\n\t\"description\": \"Project 2\",\n\t\"owner\": \"antonshell\"\n}"
+      responses:
+        '400':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: integer
+              examples:
+                '0':
+                  value: '{"status":400,"message":"Duplicated entity"}'
+    get:
+      tags:
+        - Project
+      description: Auto generated using Swagger Inspector
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"id":1,"name":"demo","description":"Project for
+                    demonstration
+                    purposes","owner":"antonshell"},{"id":20,"name":"project-2","description":"project-222","owner":"antonshell"}]
+
+  /api/environment:
+    post:
+      tags:
+        - Environment
+      description: Crerate environment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "qa2",
+                    "description": "QA2"
+                  }
+      responses:
+        '200':
+          description: Crerate environment response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: object
+                    properties:
+                      feature2:
+                        type: boolean
+                      feature3:
+                        type: boolean
+                      feature4:
+                        type: boolean
+                      feature1:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":49,"name":"qa2","description":"QA2","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
+      servers:
+        - url: http://127.0.0.1:16580
+    get:
+      tags:
+        - Environment
+      description: Get environments
+      responses:
+        '200':
+          description: Get environments response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"id":1,"name":"prod","description":"Production
+                    environment"},{"id":2,"name":"stage","description":"Staging
+                    environment"},{"id":3,"name":"dev","description":"Development
+                    environment"},{"id":39,"name":"qa1","description":"QA1"}]
+  /api/environment/{name}:
+    get:
+      tags:
+        - Environment
+      parameters:
+        - in: path
+          name: name
+          description: Environment name
+          required: true
+          schema:
+            type: string
+            example: prod
+      description: Get environment by name
+      responses:
+        '200':
+          description: Get environment response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: object
+                    properties:
+                      feature2:
+                        type: boolean
+                      feature3:
+                        type: boolean
+                      feature4:
+                        type: boolean
+                      feature1:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":1,"name":"prod","description":"Production
+                    environment","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
+    post:
+      tags:
+        - Environment
+      parameters:
+        - in: path
+          name: name
+          description: Environment name
+          required: true
+          schema:
+            type: string
+            example: prod
+      description: Update environment by name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "qa2",
+                    "description": "QA2 updated"
+                  }
+      responses:
+        '200':
+          description: Update environment reaponse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  features:
+                    type: object
+                    properties:
+                      feature2:
+                        type: boolean
+                      feature3:
+                        type: boolean
+                      feature4:
+                        type: boolean
+                      feature1:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":49,"name":"qa2","description":"QA2
+                    updated","features":{"feature1":true,"feature2":true,"feature3":true,"feature4":true}}
+
+
+    delete:
+      tags:
+        - Environment
+      parameters:
+        - in: path
+          name: name
+          description: Environment name
+          required: true
+          schema:
+            type: string
+            example: prod
+      description: Delete environment by name
+      responses:
+        '204':
+          description: Delete environment response
+  /api/feature/{name}:
+    post:
+      tags:
+        - Feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Update feature by name
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "feature5",
+                    "description": "Feature 555"
+                  }
+      responses:
+        '200':
+          description: Update feature response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  values:
+                    type: object
+                    properties:
+                      qa1:
+                        type: boolean
+                      prod:
+                        type: boolean
+                      stage:
+                        type: boolean
+                      dev:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":30,"name":"feature5","description":"Feature
+                    555","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}
+    delete:
+      tags:
+        - Feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Delete feature by name
+      responses:
+        '204':
+          description: Delete feature response
+    get:
+      tags:
+        - Feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Get feature by name
+      responses:
+        '200':
+          description: Get feature response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  values:
+                    type: object
+                    properties:
+                      qa1:
+                        type: boolean
+                      prod:
+                        type: boolean
+                      stage:
+                        type: boolean
+                      dev:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":1,"name":"feature1","description":"Demo project
+                    feature
+                    1","values":{"prod":true,"stage":false,"dev":false,"qa1":true}}
+  /api/feature:
+    post:
+      tags:
+        - Feature
+      description: Create feature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+            examples:
+              '0':
+                value: |-
+                  {
+                    "name": "feature5",
+                    "description": "Feature 5"
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  values:
+                    type: object
+                    properties:
+                      qa1:
+                        type: boolean
+                      prod:
+                        type: boolean
+                      stage:
+                        type: boolean
+                      dev:
+                        type: boolean
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  id:
+                    type: integer
+              examples:
+                '0':
+                  value: >-
+                    {"id":30,"name":"feature5","description":"Feature
+                    5","values":{"prod":true,"stage":true,"dev":true,"qa1":true}}
+      servers:
+        - url: http://127.0.0.1:16580
+    get:
+      tags:
+        - Feature
+      description: Get all features
+      responses:
+        '200':
+          description: Get all features response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: { }
+              examples:
+                '0':
+                  value: >-
+                    [{"id":1,"name":"feature1","description":"Demo project
+                    feature 1"},{"id":2,"name":"feature2","description":"Demo
+                    project feature
+                    2"},{"id":26,"name":"feature3","description":"Feature 3"}]
+  /api/feature/{name}/value:
+    post:
+      tags:
+        - Feature
+      parameters:
+        - in: path
+          name: name
+          description: Feature name
+          required: true
+          schema:
+            type: string
+            example: feature1
+      description: Update teature value
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                environment:
+                  type: string
+                enabled:
+                  type: boolean
+            examples:
+              '0':
+                value: |-
+                  {
+                    "enabled": true,
+                    "environment": "prod"
+                  }
+      responses:
+        '200':
+          description: Auto generated using Swagger Inspector
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  environment:
+                    type: string
+                  feature:
+                    type: string
+                  enabled:
+                    type: boolean
+                  status:
+                    type: string
+              examples:
+                '0':
+                  value: >-
+                    {"status":"ok","feature":"feature5","environment":"prod","enabled":true}
