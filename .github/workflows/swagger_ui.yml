@@ -1,7 +1,9 @@
 # Based on this workflow: https://github.com/Legion2/open-cue-service/blob/main/.github/workflows/pages.yml
 name: Swagger UI
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 jobs:
   build:
     runs-on: ubuntu-20.04

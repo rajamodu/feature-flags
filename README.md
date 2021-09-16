@@ -121,6 +121,9 @@ docker-compose exec php-fpm composer cs-fixer src
 Docker environment:
 [http://127.0.0.1:16582/](http://127.0.0.1:16582/)
 
+Github pages:
+[https://antonshell.github.io/feature-flags/swagger-ui/](https://antonshell.github.io/feature-flags/swagger-ui/)
+
 # Setup xdebug (Docker)
 
 [https://blog.denisbondar.com/post/phpstorm_docker_xdebug](https://blog.denisbondar.com/post/phpstorm_docker_xdebug)
