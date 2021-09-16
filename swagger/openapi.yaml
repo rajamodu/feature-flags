@@ -1,0 +1,33 @@
+---
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Feature flags service API
+  description: There is an API for Feature flags service
+  contact:
+    name: Anton Shelyganov
+    email: antonshell@yandex.ru
+    url: https://antonshell.me/
+servers:
+  - url: https://feature-flags.antonshell.me/
+paths:
+  "/":
+    get:
+      description: Healthcheck. Does nothing
+      operationId: MainController::index
+      responses:
+        '200':
+          description: Healthcheck response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    default: ok
+                  service:
+                    type: string
+                    default: feature flag service
+      tags:
+        - main
