@@ -21,10 +21,12 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: 'Default value for demo project: demo_manage_key'
     bearerAuthRead:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: 'Default value for demo project: demo_read_key'
 security:
   - bearerAuthRoot: []
   - bearerAuthManage: []
