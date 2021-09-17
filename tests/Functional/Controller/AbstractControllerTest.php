@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use App\Tests\DataFixtures\Controller\EmptyFixture;
+use App\Tests\DataFixtures\EmptyFixture;
 use App\Tests\Functional\FixtureWebTestCase;
 
 abstract class AbstractControllerTest extends FixtureWebTestCase
