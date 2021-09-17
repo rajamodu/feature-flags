@@ -113,7 +113,13 @@ class EnvironmentController extends AbstractApiController implements ManageToken
             return $this->respondValidationError($errors);
         }
 
-        $environment = $this->environmentService->updateEnvironment($environment, $environmentRequest);
+        try {
+            $environment = $this->environmentService->updateEnvironment($environment, $environmentRequest);
+        }
+        catch (UniqueConstraintViolationException $exception) {
+            return $this->respondDuplicateError();
+        }
+
         $data = $this->environmentSerializer->serializeItem($environment);
 
         return $this->createApiResponse($data);
