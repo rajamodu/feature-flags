@@ -130,7 +130,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
             return $this->respondNotFound();
         }
 
-        if ($environment->getName() === EnvironmentEnum::PROD) {
+        if ($environment->isProdEnv()) {
             return $this->respondJsonError(Response::HTTP_BAD_REQUEST, self::ERROR_REMOVE_PROD_ENV);
         }
 

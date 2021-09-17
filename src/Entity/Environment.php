@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Enum\EnvironmentEnum;
 use App\Repository\EnvironmentRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -103,5 +104,10 @@ class Environment
     public function getFeaturesValues(): Collection
     {
         return $this->featuresValues;
+    }
+
+    public function isProdEnv(): bool
+    {
+        return $this->name === EnvironmentEnum::PROD;
     }
 }
