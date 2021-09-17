@@ -74,7 +74,6 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
 
         try {
             $project = $this->projectService->createProject($projectRequest);
-            // $project = $this->projectRepository->find($project->getId());
         }
         catch (UniqueConstraintViolationException $exception) {
             return $this->respondDuplicateError();
@@ -105,6 +104,13 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
             $errors = $this->getErrorMessages($validationErrors);
 
             return $this->respondValidationError($errors);
+        }
+
+        try {
+            $project = $this->projectService->updateProject($project, $projectRequest);
+        }
+        catch (UniqueConstraintViolationException $exception) {
+            return $this->respondDuplicateError();
         }
 
         $project = $this->projectService->updateProject($project, $projectRequest);
