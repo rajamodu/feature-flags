@@ -107,7 +107,7 @@ class ProjectControllerTest extends AbstractControllerTest
                 'description' => 'Development environment',
             ],
         ], $content['environments']);
-        
+
         self::assertEquals([
             [
                 'name' => 'demo-feature',
