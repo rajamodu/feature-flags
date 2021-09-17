@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Manage;
 
 use App\Controller\AbstractApiController;
+use App\Enum\EnvironmentEnum;
 use App\Repository\EnvironmentRepository;
 use App\Service\Manage\Request\EnvironmentRequest;
 use App\Service\Manage\Serializer\EnvironmentSerializer;
@@ -127,6 +128,10 @@ class EnvironmentController extends AbstractApiController implements ManageToken
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();
+        }
+
+        if ($environment->getName() === EnvironmentEnum::PROD) {
+            return $this->respondJsonError(Response::HTTP_BAD_REQUEST, self::ERROR_REMOVE_PROD_ENV);
         }
 
         $this->environmentService->delete($environment);

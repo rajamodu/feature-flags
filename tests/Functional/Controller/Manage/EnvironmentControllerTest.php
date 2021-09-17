@@ -98,6 +98,13 @@ class EnvironmentControllerTest extends AbstractControllerTest
         self::assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testDeleteProd(): void
+    {
+        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->client->request(Request::METHOD_DELETE, '/api/environment/prod');
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
     public function testDeleteNotFound(): void
     {
         $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
