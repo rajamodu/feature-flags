@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller;
 
-use App\Tests\DataFixtures\Controller\WebsiteFixture;
+use App\Tests\DataFixtures\Controller\EmptyFixture;
 use App\Tests\Functional\FixtureWebTestCase;
 
 abstract class AbstractControllerTest extends FixtureWebTestCase
 {
-    protected function authorizeWithReadAccessToken(string $token = 'demo_read_key'): void
+    protected function authorizeWithReadAccessToken(string $token): void
     {
-        // @TODO add token to request
         $_SERVER['HTTP_AUTHORIZATION'] = sprintf('bearer %s', $token);
     }
 
@@ -31,7 +30,7 @@ abstract class AbstractControllerTest extends FixtureWebTestCase
     protected function getFixtures(): array
     {
         return [
-            WebsiteFixture::class,
+            EmptyFixture::class,
         ];
     }
 }

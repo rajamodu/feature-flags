@@ -10,23 +10,23 @@ use Doctrine\Persistence\ObjectManager;
 
 class FeatureControllerFixture extends AbstractFixture
 {
-    private const DEMO_PROJECT_REF = 'project_demo_ref';
-    private const DEMO_PROJECT = 'demo';
-    private const DEMO_READ_KEY = 'demo_read_key';
-    private const DEMO_FEATURE1_REF = 'feature1_ref';
-    private const DEMO_FEATURE1 = 'feature1';
-    private const DEMO_ENV_PROD = 'prod';
-    private const DEMO_ENV_PROD_REF = 'demo_prod_ref';
+    public const DEMO_PROJECT_REF = 'project_demo_ref';
+    public const DEMO_PROJECT = 'demo';
+    public const DEMO_READ_KEY = 'demo_read_key';
+    public const DEMO_FEATURE1_REF = 'feature1_ref';
+    public const DEMO_FEATURE1 = 'feature1';
+    public const DEMO_ENV_PROD = 'prod';
+    public const DEMO_ENV_PROD_REF = 'demo_prod_ref';
 
-    private const PROJECT2_REF = 'project2_ref';
-    private const PROJECT2 = 'project2';
-    private const PROJECT2_READ_KEY = 'demo_read_key2';
-    private const PROJECT2_FEATURE2_REF = 'feature2_ref';
-    private const PROJECT2_FEATURE2 = 'feature2';
-    private const PROJECT2_ENV_PROD = 'prod';
-    private const PROJECT2_ENV_PROD_REF = 'project2_prod_ref';
+    public const PROJECT2_REF = 'project2_ref';
+    public const PROJECT2 = 'project2';
+    public const PROJECT2_READ_KEY = 'demo_read_key2';
+    public const PROJECT2_FEATURE2_REF = 'feature2_ref';
+    public const PROJECT2_FEATURE2 = 'feature2';
+    public const PROJECT2_ENV_PROD = 'prod';
+    public const PROJECT2_ENV_PROD_REF = 'project2_prod_ref';
 
-    private const OWNER = 'antonshell';
+    public const OWNER = 'antonshell';
 
     private array $projectsData = [
         [

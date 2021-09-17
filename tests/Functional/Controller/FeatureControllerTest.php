@@ -12,7 +12,7 @@ class FeatureControllerTest extends AbstractControllerTest
 {
     public function testGetFeatureFlag(): void
     {
-        $this->authorizeWithReadAccessToken();
+        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_READ_KEY);
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/feature1/prod');
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -27,7 +27,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetFeatureFlagWrongProject(): void
     {
-        $this->authorizeWithReadAccessToken();
+        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_READ_KEY);
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/wrong_project/feature1/prod');
         self::assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
@@ -39,7 +39,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetFeatureFlagWrongReadToken(): void
     {
-        $this->authorizeWithReadAccessToken('demo_read_key2');
+        $this->authorizeWithReadAccessToken('wrong_read_key');
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/feature1/prod');
         self::assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
@@ -51,7 +51,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetFeatureFlagWrongEnvironment(): void
     {
-        $this->authorizeWithReadAccessToken();
+        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_READ_KEY);
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/feature1/wrong_environment');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
@@ -63,7 +63,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetFeatureFlagNotExists(): void
     {
-        $this->authorizeWithReadAccessToken();
+        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_READ_KEY);
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/wrong_feature/prod');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
@@ -75,7 +75,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetFeatureFlagMissingValue(): void
     {
-        $this->authorizeWithReadAccessToken('demo_read_key2');
+        $this->authorizeWithReadAccessToken(FeatureControllerFixture::PROJECT2_READ_KEY);
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/project2/feature2/prod');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
