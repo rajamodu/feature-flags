@@ -112,8 +112,14 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
             return $this->respondValidationError($errors);
         }
 
-        $environment = $this->featureService->updateFeature($feature, $featureRequest);
-        $data = $this->featureSerializer->serializeItem($environment);
+        try {
+            $feature = $this->featureService->updateFeature($feature, $featureRequest);
+        }
+        catch (UniqueConstraintViolationException $exception) {
+            return $this->respondDuplicateError();
+        }
+
+        $data = $this->featureSerializer->serializeItem($feature);
 
         return $this->createApiResponse($data);
     }
