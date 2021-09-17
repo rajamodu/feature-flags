@@ -1,6 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+// customize database credentials for test environment
+if(isset($_ENV['DOCKER_ENVIRONMENT'])) {
+    $_ENV['DATABASE_URL'] = 'mysql://root:root@database:3306/feature_flags_test?serverVersion=mariadb-10.4.11';
+    $_ENV['DB_NAME'] = 'feature_flags_test';
+}
+
 if (!ini_get('date.timezone')) {
     ini_set('date.timezone', 'UTC');
 }

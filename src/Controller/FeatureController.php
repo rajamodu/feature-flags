@@ -76,7 +76,7 @@ class FeatureController extends AbstractApiController
         }
 
         return $this->createApiResponse([
-            'status' => 'ok',
+            'status' => Response::HTTP_OK,
             'feature' => $feature->getName(),
             'environment' => $environment->getName(),
             'enabled' => $featureValue->isEnabled(),
