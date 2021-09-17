@@ -13,7 +13,7 @@ trait ApiControllerValidationTrait
     protected function respondValidationError(array $messages): JsonResponse
     {
         return new JsonResponse([
-            'status' => Response::HTTP_OK,
+            'status' => Response::HTTP_BAD_REQUEST,
             'message' => 'Validation failed',
             'validation_errors' => $messages,
         ]);
