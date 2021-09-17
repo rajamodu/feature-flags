@@ -18,6 +18,14 @@ class ProjectControllerFixture extends AbstractFixture
     public const DEMO_ENV_PROD = 'prod';
     public const DEMO_ENV_PROD_REF = 'demo_prod_ref';
 
+    public const PROJECT2_REF = 'project2_ref';
+    public const PROJECT2 = 'project2';
+    public const PROJECT2_READ_KEY = 'demo_read_key2';
+    public const PROJECT2_FEATURE2_REF = 'feature2_ref';
+    public const PROJECT2_FEATURE2 = 'feature2';
+    public const PROJECT2_ENV_PROD = 'prod';
+    public const PROJECT2_ENV_PROD_REF = 'project2_prod_ref';
+
     public const OWNER = 'antonshell';
 
     private array $projectsData = [
@@ -47,6 +55,27 @@ class ProjectControllerFixture extends AbstractFixture
                     'environment' => self::DEMO_ENV_PROD_REF,
                 ],
             ],
+        ],
+        [
+            'reference' => self::PROJECT2_REF,
+            'name' => self::PROJECT2,
+            'owner' => self::OWNER,
+            'readKey' => self::PROJECT2_READ_KEY,
+            'manageKey' => 'project2_manage_key',
+            'environments' => [
+                [
+                    'reference' => self::PROJECT2_ENV_PROD_REF,
+                    'name' => self::PROJECT2_ENV_PROD,
+                ],
+            ],
+            'features' => [
+                [
+                    'reference' => self::PROJECT2_FEATURE2_REF,
+                    'name' => self::PROJECT2_FEATURE2,
+                    'description' => 'feature 2',
+                ],
+            ],
+            'values' => [],
         ],
     ];
 

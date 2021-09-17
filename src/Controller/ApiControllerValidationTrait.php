@@ -16,7 +16,7 @@ trait ApiControllerValidationTrait
             'status' => Response::HTTP_BAD_REQUEST,
             'message' => 'Validation failed',
             'validation_errors' => $messages,
-        ]);
+        ], Response::HTTP_BAD_REQUEST);
     }
 
     protected function getErrorMessages(ConstraintViolationListInterface $violations): array

@@ -20,13 +20,20 @@ class ProjectControllerTest extends AbstractControllerTest
         $this->client->request(Request::METHOD_GET, '/manage/projects');
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        $expectedProject = [
-            'id' => 1,
-            'name' => 'demo',
-            'description' => 'demo project',
-            'owner' => 'antonshell',
-        ];
-        self::assertEquals([$expectedProject], $content);
+        self::assertEquals([
+            [
+                'id' => 1,
+                'name' => 'demo',
+                'description' => 'demo project',
+                'owner' => 'antonshell',
+            ],
+            [
+                'id' => 2,
+                'name' => 'project2',
+                'description' => 'demo project',
+                'owner' => 'antonshell',
+            ]
+        ], $content);
     }
 
     public function testGetById(): void
@@ -71,17 +78,85 @@ class ProjectControllerTest extends AbstractControllerTest
 
     public function testCreate(): void
     {
+        $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
+        $this->sendPostApiRequest(sprintf('/manage/project'), [
+            'name' => 'new-project',
+            'description' => 'new project',
+            'owner' => 'antonshell',
+        ]);
+        self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $content = json_decode($this->client->getResponse()->getContent(), true);
 
+        /*var_dump($content);
+        die();*/
+
+        self::assertEquals('new-project', $content['name']);
+        self::assertEquals('antonshell', $content['owner']);
+
+        self::assertEquals([
+            [
+                'name' => 'prod',
+                'description' => 'Production environment',
+            ],
+            [
+                'name' => 'stage',
+                'description' => 'Staging environment',
+            ],
+            [
+                'name' => 'dev',
+                'description' => 'Development environment',
+            ],
+        ], $content['environments']);
+        
+        self::assertEquals([
+            [
+                'name' => 'demo-feature',
+                'description' => 'Feature for demonstration purposes',
+                'values' => [
+                    'prod' => true,
+                    'stage' => true,
+                    'dev' => true,
+                ],
+
+            ],
+        ], $content['features']);
     }
 
     public function testCreateDuplicate(): void
     {
+        $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
+        $this->sendPostApiRequest(sprintf('/manage/project'), [
+            'name' => 'demo',
+            'description' => 'demo',
+            'owner' => 'antonshell',
+        ]);
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals([
+            'status' => Response::HTTP_BAD_REQUEST,
+            'message' => 'Duplicated entity',
+        ], $content);
     }
 
     public function testCreateInvalid(): void
     {
+        $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
+        $this->sendPostApiRequest(sprintf('/manage/project'), [
+            'name' => '',
+            'description' => 'demo',
+            'owner' => 'antonshell',
+        ]);
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals([
+            'status' => Response::HTTP_BAD_REQUEST,
+            'message' => 'Validation failed',
+            'validation_errors' => [
+                'name' => 'This value is too short. It should have 3 characters or more.',
+            ],
+        ], $content);
     }
 
     public function testUpdate(): void
@@ -122,6 +197,25 @@ class ProjectControllerTest extends AbstractControllerTest
         ], $content);
     }
 
+    public function testUpdateDuplicate(): void
+    {
+        /** @var Project $project */
+        $project = $this->getReference(ProjectControllerFixture::DEMO_PROJECT_REF);
+        $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
+        $this->sendPostApiRequest(sprintf('/manage/project/%s', $project->getId()), [
+            'name' => 'project2',
+            'description' => 'demo',
+            'owner' => 'antonshell',
+        ]);
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals([
+            'status' => Response::HTTP_BAD_REQUEST,
+            'message' => 'Duplicated entity',
+        ], $content);
+    }
+
     public function testUpdateNotFound(): void
     {
         $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
@@ -131,6 +225,12 @@ class ProjectControllerTest extends AbstractControllerTest
             'owner' => 'antonshell',
         ]);
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals([
+            'status' => Response::HTTP_NOT_FOUND,
+            'message' => 'Not found',
+        ], $content);
     }
 
     public function testUpdateInvalid(): void
@@ -143,7 +243,7 @@ class ProjectControllerTest extends AbstractControllerTest
             'description' => 'project-123',
             'owner' => 'antonshell',
         ]);
-        self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         $content = json_decode($this->client->getResponse()->getContent(), true);
         self::assertEquals([
@@ -169,6 +269,12 @@ class ProjectControllerTest extends AbstractControllerTest
         $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
         $this->client->request(Request::METHOD_DELETE,'/manage/project/123');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        self::assertEquals([
+            'status' => Response::HTTP_NOT_FOUND,
+            'message' => 'Not found',
+        ], $content);
     }
 
     protected function getFixtures(): array
