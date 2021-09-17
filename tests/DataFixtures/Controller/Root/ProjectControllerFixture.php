@@ -13,6 +13,7 @@ class ProjectControllerFixture extends AbstractFixture
     public const DEMO_PROJECT_REF = 'project_demo_ref';
     public const DEMO_PROJECT = 'demo';
     public const DEMO_READ_KEY = 'demo_read_key';
+    public const DEMO_MANAGE_KEY = 'demo_manage_key';
     public const DEMO_FEATURE1_REF = 'feature1_ref';
     public const DEMO_FEATURE1 = 'feature1';
     public const DEMO_ENV_PROD = 'prod';
@@ -21,6 +22,7 @@ class ProjectControllerFixture extends AbstractFixture
     public const PROJECT2_REF = 'project2_ref';
     public const PROJECT2 = 'project2';
     public const PROJECT2_READ_KEY = 'demo_read_key2';
+    public const PROJECT2_MANAGE_KEY = 'demo_manage_key2';
     public const PROJECT2_FEATURE2_REF = 'feature2_ref';
     public const PROJECT2_FEATURE2 = 'feature2';
     public const PROJECT2_ENV_PROD = 'prod';
@@ -34,11 +36,12 @@ class ProjectControllerFixture extends AbstractFixture
             'name' => self::DEMO_PROJECT,
             'owner' => self::OWNER,
             'readKey' => self::DEMO_READ_KEY,
-            'manageKey' => 'demo_manage_key',
+            'manageKey' => self::DEMO_MANAGE_KEY,
             'environments' => [
                 [
                     'reference' => self::DEMO_ENV_PROD_REF,
                     'name' => self::DEMO_ENV_PROD,
+                    'description' => 'Production environment',
                 ],
             ],
             'features' => [
@@ -61,11 +64,12 @@ class ProjectControllerFixture extends AbstractFixture
             'name' => self::PROJECT2,
             'owner' => self::OWNER,
             'readKey' => self::PROJECT2_READ_KEY,
-            'manageKey' => 'project2_manage_key',
+            'manageKey' => self::PROJECT2_MANAGE_KEY,
             'environments' => [
                 [
                     'reference' => self::PROJECT2_ENV_PROD_REF,
                     'name' => self::PROJECT2_ENV_PROD,
+                    'description' => 'Production environment',
                 ],
             ],
             'features' => [
@@ -98,6 +102,7 @@ class ProjectControllerFixture extends AbstractFixture
             foreach ($projectRow['environments'] as $environmentRow) {
                 $environment = $factory->createEnvironment([
                     'name' => $environmentRow['name'],
+                    'description' => $environmentRow['description'],
                     'project' => $project,
                 ]);
                 $this->addReference($environmentRow['reference'], $environment);
