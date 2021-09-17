@@ -28,6 +28,7 @@ class FeatureValueRequest
      * @Serializer\SerializedName("enabled")
      * @Serializer\Type("boolean")
      *
+     * @Assert\NotBlank()
      * @Assert\Type(type="boolean")
      */
     private $enabled;
