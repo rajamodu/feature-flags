@@ -17,9 +17,8 @@ class FeatureControllerTest extends AbstractControllerTest
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
         $content = json_decode($this->client->getResponse()->getContent(), true);
-        // @TODO replace ok to 200
         self::assertEquals([
-            'status' => 'ok',
+            'status' => Response::HTTP_OK,
             'feature' => 'feature1',
             'environment' => 'prod',
             'enabled' => true
@@ -31,12 +30,9 @@ class FeatureControllerTest extends AbstractControllerTest
         $this->authorizeWithReadAccessToken();
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/wrong_project/feature1/prod');
         self::assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
-
         $content = json_decode($this->client->getResponse()->getContent(), true);
-
-        // @TODO replace 403 to error
         self::assertEquals([
-            'status' => 403,
+            'status' => Response::HTTP_FORBIDDEN,
             'message' => 'Project antonshell/wrong_project not found',
         ], $content);
     }
@@ -46,10 +42,9 @@ class FeatureControllerTest extends AbstractControllerTest
         $this->authorizeWithReadAccessToken('demo_read_key2');
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/feature1/prod');
         self::assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
-
         $content = json_decode($this->client->getResponse()->getContent(), true);
         self::assertEquals([
-            'status' => 403,
+            'status' => Response::HTTP_FORBIDDEN,
             'message' => 'Invalid access token provided',
         ], $content);
     }
@@ -59,10 +54,9 @@ class FeatureControllerTest extends AbstractControllerTest
         $this->authorizeWithReadAccessToken();
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/feature1/wrong_environment');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
         $content = json_decode($this->client->getResponse()->getContent(), true);
         self::assertEquals([
-            'status' => 404,
+            'status' => Response::HTTP_NOT_FOUND,
             'message' => 'Environment not found: wrong_environment',
         ], $content);
     }
@@ -72,10 +66,9 @@ class FeatureControllerTest extends AbstractControllerTest
         $this->authorizeWithReadAccessToken();
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/demo/wrong_feature/prod');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
         $content = json_decode($this->client->getResponse()->getContent(), true);
         self::assertEquals([
-            'status' => 404,
+            'status' => Response::HTTP_NOT_FOUND,
             'message' => 'Feature not found: wrong_feature',
         ], $content);
     }
@@ -85,10 +78,9 @@ class FeatureControllerTest extends AbstractControllerTest
         $this->authorizeWithReadAccessToken('demo_read_key2');
         $this->client->request(Request::METHOD_GET, '/feature/antonshell/project2/feature2/prod');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
         $content = json_decode($this->client->getResponse()->getContent(), true);
         self::assertEquals([
-            'status' => 404,
+            'status' => Response::HTTP_NOT_FOUND,
             'message' => 'Feature(2) value is not set for environment(prod)',
         ], $content);
     }
