@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\FeatureValue;
-use App\Repository\FeatureValueRepository;
 use App\Service\Manage\Request\FeatureValueRequest;
+use Doctrine\ORM\EntityManagerInterface;
 
 class FeatureValueService
 {
     public function __construct(
-        private FeatureValueRepository $featureValueRepository
+        private EntityManagerInterface $entityManager,
     ) {
     }
 
@@ -19,6 +19,9 @@ class FeatureValueService
     {
         $featureValue->setEnabled($featureValueRequest->getEnabled());
 
-        return $this->featureValueRepository->save($featureValue);
+        $this->entityManager->persist($featureValue);
+        $this->entityManager->flush();
+
+        return $featureValue;
     }
 }

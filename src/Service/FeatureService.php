@@ -61,7 +61,10 @@ class FeatureService
             ->setDescription($featureRequest->getDescription())
         ;
 
-        return $this->featureRepository->save($feature);
+        $this->entityManager->persist($feature);
+        $this->entityManager->flush();
+
+        return $feature;
     }
 
     public function delete(Feature $feature): void

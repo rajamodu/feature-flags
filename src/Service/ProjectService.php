@@ -105,7 +105,10 @@ class ProjectService
             ->setOwner($projectRequest->getOwner())
         ;
 
-        return $this->projectRepository->save($project);
+        $this->entityManager->persist($project);
+        $this->entityManager->flush();
+
+        return $project;
     }
 
     public function delete(Project $project): void

@@ -61,7 +61,10 @@ class EnvironmentService
             ->setDescription($environmentRequest->getDescription())
         ;
 
-        return $this->environmentRepository->save($environment);
+        $this->entityManager->persist($environment);
+        $this->entityManager->flush();
+
+        return $environment;
     }
 
     public function delete(Environment $environment): void
