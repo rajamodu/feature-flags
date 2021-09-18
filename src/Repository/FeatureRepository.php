@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Feature;
 use App\Entity\Project;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Feature[]    findAll()
  * @method Feature[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FeatureRepository extends AbstractRepository
+class FeatureRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
