@@ -2,6 +2,8 @@
 
 Self hosted feature flags service
 
+Full code coverage report: [http://files.antonshell.me/github-actions/feature-flags/master/coverage/coverage/](http://files.antonshell.me/github-actions/feature-flags/master/coverage/coverage/)
+
 # Install in docker
 
 1 . Clone repository
