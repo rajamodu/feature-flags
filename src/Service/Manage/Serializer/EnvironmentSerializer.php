@@ -5,11 +5,8 @@ declare(strict_types=1);
 namespace App\Service\Manage\Serializer;
 
 use App\Entity\Environment;
-use App\Entity\Feature;
-use App\Entity\Project;
-use App\Service\AbstractSerializer;
 
-class EnvironmentSerializer extends AbstractSerializer
+class EnvironmentSerializer
 {
     public function serializeArray(array $data): array
     {

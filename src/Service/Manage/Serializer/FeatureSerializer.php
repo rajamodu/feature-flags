@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Manage\Serializer;
 
-use App\Entity\Environment;
 use App\Entity\Feature;
-use App\Service\AbstractSerializer;
 
-class FeatureSerializer extends AbstractSerializer
+class FeatureSerializer
 {
     public function serializeArray(array $data): array
     {

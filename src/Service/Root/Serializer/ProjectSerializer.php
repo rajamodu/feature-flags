@@ -6,9 +6,8 @@ namespace App\Service\Root\Serializer;
 
 use App\Entity\Feature;
 use App\Entity\Project;
-use App\Service\AbstractSerializer;
 
-class ProjectSerializer extends AbstractSerializer
+class ProjectSerializer
 {
     public function serializeArray(array $data): array
     {
