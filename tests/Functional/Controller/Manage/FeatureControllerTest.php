@@ -29,7 +29,7 @@ class FeatureControllerTest extends AbstractControllerTest
                 'id' => 2,
                 'name' => 'feature3',
                 'description' => 'feature 3',
-            ]
+            ],
         ], $content);
     }
 

@@ -13,7 +13,7 @@ class ProjectSerializer
     {
         $results = [];
         foreach ($data as $project) {
-            /** @var Project $project */
+            /* @var Project $project */
             $results[] = [
                 'id' => $project->getId(),
                 'name' => $project->getName(),

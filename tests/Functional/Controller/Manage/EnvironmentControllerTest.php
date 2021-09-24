@@ -28,7 +28,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
                 'id' => 2,
                 'name' => 'stage',
                 'description' => 'Staging environment',
-            ]
+            ],
         ], $content);
     }
 

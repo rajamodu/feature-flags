@@ -68,8 +68,6 @@ class FeatureValueControllerTest extends AbstractControllerTest
         self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-
-
     protected function getFixtures(): array
     {
         return [

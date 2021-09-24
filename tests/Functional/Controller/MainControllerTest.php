@@ -18,7 +18,7 @@ class MainControllerTest extends AbstractControllerTest
         $content = json_decode($this->client->getResponse()->getContent(), true);
         self::assertEquals([
             'status' => 'ok',
-            'service' => 'feature flag service'
+            'service' => 'feature flag service',
         ], $content);
     }
 

@@ -6,11 +6,11 @@ namespace App\Controller\Manage;
 
 use App\Controller\AbstractApiController;
 use App\Repository\FeatureValueRepository;
-use App\Service\Manage\Request\FeatureValueRequest;
 use App\Service\AuthService;
 use App\Service\EnvironmentService;
 use App\Service\FeatureService;
 use App\Service\FeatureValueService;
+use App\Service\Manage\Request\FeatureValueRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

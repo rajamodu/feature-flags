@@ -32,7 +32,7 @@ class ProjectControllerTest extends AbstractControllerTest
                 'name' => 'project2',
                 'description' => 'demo project',
                 'owner' => 'antonshell',
-            ]
+            ],
         ], $content);
     }
 
@@ -72,7 +72,7 @@ class ProjectControllerTest extends AbstractControllerTest
     public function testGetByIdNotFound(): void
     {
         $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
-        $this->client->request(Request::METHOD_GET,'/manage/project/123');
+        $this->client->request(Request::METHOD_GET, '/manage/project/123');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
@@ -117,7 +117,6 @@ class ProjectControllerTest extends AbstractControllerTest
                     'stage' => true,
                     'dev' => true,
                 ],
-
             ],
         ], $content['features']);
     }
@@ -267,7 +266,7 @@ class ProjectControllerTest extends AbstractControllerTest
     public function testDeleteNotFound(): void
     {
         $this->authorizeWithReadAccessToken(self::ROOT_TOKEN);
-        $this->client->request(Request::METHOD_DELETE,'/manage/project/123');
+        $this->client->request(Request::METHOD_DELETE, '/manage/project/123');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         $content = json_decode($this->client->getResponse()->getContent(), true);

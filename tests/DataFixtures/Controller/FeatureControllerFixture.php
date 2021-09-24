@@ -119,7 +119,7 @@ class FeatureControllerFixture extends AbstractFixture
                 $factory->createFeatureValue([
                     'enabled' => $valueRow['enabled'],
                     'feature' => $this->getReference($valueRow['feature']),
-                    'environment' =>  $this->getReference($valueRow['environment']),
+                    'environment' => $this->getReference($valueRow['environment']),
                 ]);
             }
         }

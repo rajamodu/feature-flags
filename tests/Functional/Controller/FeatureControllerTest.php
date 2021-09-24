@@ -21,7 +21,7 @@ class FeatureControllerTest extends AbstractControllerTest
             'status' => Response::HTTP_OK,
             'feature' => 'feature1',
             'environment' => 'prod',
-            'enabled' => true
+            'enabled' => true,
         ], $content);
     }
 

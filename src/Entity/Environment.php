@@ -108,6 +108,6 @@ class Environment
 
     public function isProdEnv(): bool
     {
-        return $this->name === EnvironmentEnum::PROD;
+        return EnvironmentEnum::PROD === $this->name;
     }
 }

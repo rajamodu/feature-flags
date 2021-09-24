@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Entity;
 
-use App\Entity\Environment;
 use App\Entity\Feature;
 use App\Entity\Project;
 use PHPUnit\Framework\TestCase;

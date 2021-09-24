@@ -6,9 +6,9 @@ namespace App\Controller\Root;
 
 use App\Controller\AbstractApiController;
 use App\Repository\ProjectRepository;
+use App\Service\ProjectService;
 use App\Service\Root\Request\ProjectRequest;
 use App\Service\Root\Serializer\ProjectSerializer;
-use App\Service\ProjectService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -74,8 +74,7 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
 
         try {
             $project = $this->projectService->createProject($projectRequest);
-        }
-        catch (UniqueConstraintViolationException $exception) {
+        } catch (UniqueConstraintViolationException $exception) {
             return $this->respondDuplicateError();
         }
 
@@ -108,8 +107,7 @@ class ProjectController extends AbstractApiController implements RootTokenAuthen
 
         try {
             $project = $this->projectService->updateProject($project, $projectRequest);
-        }
-        catch (UniqueConstraintViolationException $exception) {
+        } catch (UniqueConstraintViolationException $exception) {
             return $this->respondDuplicateError();
         }
 

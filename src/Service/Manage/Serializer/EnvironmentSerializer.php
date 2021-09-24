@@ -12,7 +12,7 @@ class EnvironmentSerializer
     {
         $results = [];
         foreach ($data as $environment) {
-            /** @var Environment $environment */
+            /* @var Environment $environment */
             $results[] = [
                 'id' => $environment->getId(),
                 'name' => $environment->getName(),

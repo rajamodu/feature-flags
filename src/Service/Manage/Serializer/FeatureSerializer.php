@@ -12,7 +12,7 @@ class FeatureSerializer
     {
         $results = [];
         foreach ($data as $feature) {
-            /** @var Feature $feature */
+            /* @var Feature $feature */
             $results[] = [
                 'id' => $feature->getId(),
                 'name' => $feature->getName(),
