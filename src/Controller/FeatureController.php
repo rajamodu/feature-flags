@@ -44,7 +44,8 @@ class FeatureController extends AbstractApiController
             );
         }
 
-        if (!$this->authService->verifyReadAccessToken($project)) {
+        $token = $this->authService->getTokenFromGlobals();
+        if (!$this->authService->verifyReadAccessToken($token, $project)) {
             return $this->respondJsonError(
                 Response::HTTP_FORBIDDEN,
                 self::ERROR_INVALID_ACCESS_TOKEN

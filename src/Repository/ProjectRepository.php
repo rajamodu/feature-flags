@@ -21,10 +21,11 @@ class ProjectRepository extends ServiceEntityRepository
         parent::__construct($registry, Project::class);
     }
 
-    public function findOneByManageKey(string $manageKey): ?Project
+    public function findOneByOwnerAndName(string $owner, string $name): ?Project
     {
         return $this->findOneBy([
-            'manageKey' => $manageKey,
+            'owner' => $owner,
+            'name' => $name,
         ]);
     }
 }
