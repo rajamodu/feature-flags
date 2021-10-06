@@ -32,11 +32,11 @@ class ProjectRepositoryTest extends FixtureWebTestCase
         parent::tearDown();
     }
 
-    public function testFindOneByManageKey(): void
+    public function testFindOneByOwnerAndName(): void
     {
         /** @var Project $expectedProject */
         $expectedProject = $this->getReference(ProjectRepositoryFixture::DEMO_PROJECT_REF);
-        $project = $this->projectRepository->findOneByManageKey(ProjectRepositoryFixture::DEMO_MANAGE_KEY);
+        $project = $this->projectRepository->findOneByOwnerAndName(ProjectRepositoryFixture::OWNER, ProjectRepositoryFixture::DEMO_PROJECT);
         self::assertEquals($expectedProject->getId(), $project->getId());
     }
 
