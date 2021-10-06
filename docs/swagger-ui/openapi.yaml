@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.0
 info:
-  version: 1.0.3
+  version: 1.0.4
   title: Feature flags service API
   description: There is an API for Feature flags service
   contact:
@@ -357,6 +357,14 @@ paths:
     post:
       tags:
         - Environment
+      parameters:
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Crerate environment
       security:
         - bearerAuthManage: []
@@ -411,6 +419,14 @@ paths:
     get:
       tags:
         - Environment
+      parameters:
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Get environments
       security:
         - bearerAuthManage: []
@@ -441,6 +457,13 @@ paths:
           schema:
             type: string
             example: prod
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Get environment by name
       security:
         - bearerAuthManage: []
@@ -485,6 +508,13 @@ paths:
           schema:
             type: string
             example: prod
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Update environment by name
       security:
         - bearerAuthManage: []
@@ -548,6 +578,13 @@ paths:
           schema:
             type: string
             example: prod
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Delete environment by name
       security:
         - bearerAuthManage: []
@@ -566,6 +603,13 @@ paths:
           schema:
             type: string
             example: feature1
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Update feature by name
       security:
         - bearerAuthManage: []
@@ -627,6 +671,13 @@ paths:
           schema:
             type: string
             example: feature1
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Delete feature by name
       security:
         - bearerAuthManage: []
@@ -644,6 +695,13 @@ paths:
           schema:
             type: string
             example: feature1
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Get feature by name
       security:
         - bearerAuthManage: []
@@ -682,6 +740,14 @@ paths:
     post:
       tags:
         - Feature
+      parameters:
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Create feature
       security:
         - bearerAuthManage: []
@@ -737,6 +803,14 @@ paths:
     get:
       tags:
         - Feature
+      parameters:
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Get all features
       security:
         - bearerAuthManage: []
@@ -767,6 +841,13 @@ paths:
           schema:
             type: string
             example: feature1
+        - in: header
+          name: Project
+          description: Project reference
+          required: true
+          schema:
+            type: string
+            example: antonshell/demo
       description: Update teature value
       security:
         - bearerAuthManage: []
