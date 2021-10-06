@@ -33,7 +33,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      */
     public function getProjectFeatures(): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $environments = $this->featureRepository->findAllByProject($project);
         $data = $this->featureSerializer->serializeArray($environments);
 
@@ -45,7 +45,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      */
     public function getByName(string $name): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();
@@ -75,7 +75,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
             return $this->respondValidationError($errors);
         }
 
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
 
         try {
             $feature = $this->featureService->createFeature($project, $featureRequest);
@@ -98,7 +98,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      */
     public function update(string $name, FeatureRequest $featureRequest): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();
@@ -127,7 +127,7 @@ class FeatureController extends AbstractApiController implements ManageTokenAuth
      */
     public function delete(string $name): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();

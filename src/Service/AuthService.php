@@ -22,7 +22,7 @@ class AuthService
     ) {
     }
 
-    public function getProjectByManageKey(): Project
+    public function getProjectByManageKeyAndReference(): Project
     {
         $token = $this->getTokenFromGlobals();
         $reference = $this->getProjectReferenceFromGlobals();

@@ -39,7 +39,7 @@ class FeatureValueController extends AbstractApiController implements ManageToke
      */
     public function setFeatureValue(string $name, FeatureValueRequest $featureValueRequest): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $feature = $this->featureService->getFeature($project, $name);
         if (!$feature) {
             return $this->respondNotFound();
