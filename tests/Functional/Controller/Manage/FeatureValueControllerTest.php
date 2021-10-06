@@ -51,12 +51,12 @@ class FeatureValueControllerTest extends AbstractControllerTest
 
     public function testSetFeatureValueNotFoundValue(): void
     {
-        $this->authorizeWithManageAccessToken(FeatureValueControllerFixture::PROJECT2_MANAGE_KEY, EnvironmentControllerFixture::OWNER, EnvironmentControllerFixture::DEMO_PROJECT);
+        $this->authorizeWithManageAccessToken(FeatureValueControllerFixture::PROJECT2_MANAGE_KEY, EnvironmentControllerFixture::OWNER, EnvironmentControllerFixture::PROJECT2);
         $this->sendPostApiRequest(sprintf('/api/feature/feature2/value'), [
             'enabled' => true,
             'environment' => 'prod',
         ]);
-        self::assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testSetFeatureValueInvalid(): void
