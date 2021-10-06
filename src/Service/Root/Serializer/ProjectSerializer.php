@@ -6,6 +6,7 @@ namespace App\Service\Root\Serializer;
 
 use App\Entity\Feature;
 use App\Entity\Project;
+use App\Model\ProjectCredentials;
 
 class ProjectSerializer
 {
@@ -25,18 +26,25 @@ class ProjectSerializer
         return $results;
     }
 
-    public function serializeItem(Project $project): array
+    public function serializeItem(Project $project, ?ProjectCredentials $projectCredentials = null): array
     {
-        return [
+        $data = [
             'id' => $project->getId(),
             'name' => $project->getName(),
             'description' => $project->getDescription(),
             'owner' => $project->getOwner(),
-            'read_key' => $project->getReadKey(),
-            'manage_key' => $project->getManageKey(),
             'environments' => $this->serializeEnvironments($project),
             'features' => $this->serializeFeatures($project),
         ];
+
+        if ($projectCredentials) {
+            $data = array_merge($data, [
+                'read_key' => $projectCredentials->getReadKey(),
+                'manage_key' => $projectCredentials->getManageKey(),
+            ]);
+        }
+
+        return $data;
     }
 
     private function serializeEnvironments(Project $project): array

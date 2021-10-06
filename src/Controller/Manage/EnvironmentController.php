@@ -33,7 +33,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      */
     public function getProjectEnvironments(): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $environments = $this->environmentRepository->findAllByProject($project);
         $data = $this->environmentSerializer->serializeArray($environments);
 
@@ -45,7 +45,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      */
     public function getByName(string $name): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();
@@ -75,7 +75,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
             return $this->respondValidationError($errors);
         }
 
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
 
         try {
             $environment = $this->environmentService->createEnvironment($project, $environmentRequest);
@@ -98,7 +98,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      */
     public function update(string $name, EnvironmentRequest $environmentRequest): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();
@@ -127,7 +127,7 @@ class EnvironmentController extends AbstractApiController implements ManageToken
      */
     public function delete(string $name): JsonResponse
     {
-        $project = $this->authService->getProjectByManageKey();
+        $project = $this->authService->getProjectByManageKeyAndReference();
         $environment = $this->environmentService->getEnvironment($project, $name);
         if (!$environment) {
             return $this->respondNotFound();

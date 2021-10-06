@@ -15,9 +15,6 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class TokenSubscriber implements EventSubscriberInterface
 {
-    private const ERROR_MISSING_TOKEN = 'This action needs a valid token!';
-    private const ERROR_INVALID_TOKEN = 'Invalid access token provided';
-
     public function __construct(
         private AuthService $authService,
         private ProjectRepository $projectRepository,
@@ -42,23 +39,31 @@ class TokenSubscriber implements EventSubscriberInterface
         // root token auth
         if ($controller[0] instanceof RootTokenAuthenticatedController) {
             if (!$token) {
-                throw new AccessDeniedHttpException(self::ERROR_MISSING_TOKEN);
+                throw new AccessDeniedHttpException(AuthService::ERROR_MISSING_TOKEN);
             }
 
             if (!$this->authService->validateRootToken($token)) {
-                throw new AccessDeniedHttpException(self::ERROR_INVALID_TOKEN);
+                throw new AccessDeniedHttpException(AuthService::ERROR_INVALID_TOKEN);
             }
         }
 
         // manage token auth
         if ($controller[0] instanceof ManageTokenAuthenticatedController) {
             if (!$token) {
-                throw new AccessDeniedHttpException(self::ERROR_MISSING_TOKEN);
+                throw new AccessDeniedHttpException(AuthService::ERROR_MISSING_TOKEN);
             }
 
-            $project = $this->projectRepository->findOneByManageKey($token);
-            if (!$project) {
-                throw new AccessDeniedHttpException(self::ERROR_INVALID_TOKEN);
+            $projectReference = $this->authService->getProjectReferenceFromGlobals();
+            if (!$projectReference) {
+                throw new AccessDeniedHttpException(AuthService::ERROR_MISSING_PROJECT_REFERENCE);
+            }
+
+            $project = $this->projectRepository->findOneByOwnerAndName(
+                $projectReference->getOwner(),
+                $projectReference->getName()
+            );
+            if (!$project || !$this->authService->verifyManageAccessToken($token, $project)) {
+                throw new AccessDeniedHttpException(AuthService::ERROR_INVALID_CREDENTIALS);
             }
         }
     }

@@ -49,8 +49,6 @@ class ProjectControllerTest extends AbstractControllerTest
             'name' => 'demo',
             'description' => 'demo project',
             'owner' => 'antonshell',
-            'read_key' => 'demo_read_key',
-            'manage_key' => 'demo_manage_key',
             'environments' => [
                 [
                     'name' => 'prod',
@@ -87,12 +85,8 @@ class ProjectControllerTest extends AbstractControllerTest
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $content = json_decode($this->client->getResponse()->getContent(), true);
 
-        /*var_dump($content);
-        die();*/
-
         self::assertEquals('new-project', $content['name']);
         self::assertEquals('antonshell', $content['owner']);
-
         self::assertEquals([
             [
                 'name' => 'prod',
@@ -176,8 +170,6 @@ class ProjectControllerTest extends AbstractControllerTest
             'name' => 'demo-new',
             'description' => 'demo new',
             'owner' => 'new-owner',
-            'read_key' => 'demo_read_key',
-            'manage_key' => 'demo_manage_key',
             'environments' => [
                 [
                     'name' => 'prod',

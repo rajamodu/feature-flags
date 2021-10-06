@@ -10,6 +10,7 @@ use App\Entity\FeatureValue;
 use App\Entity\Project;
 use App\Enum\EnvironmentEnum;
 use App\Enum\FeatureEnum;
+use App\Model\ProjectCredentials;
 use App\Repository\ProjectRepository;
 use App\Service\Root\Request\ProjectRequest;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ class ProjectService
         ]);
     }
 
-    public function createProject(ProjectRequest $projectRequest): Project
+    public function createProject(ProjectRequest $projectRequest, ProjectCredentials $projectCredentials): Project
     {
         // project
         $project = new Project();
@@ -39,8 +40,8 @@ class ProjectService
             ->setName($projectRequest->getName())
             ->setDescription($projectRequest->getDescription())
             ->setOwner($projectRequest->getOwner())
-            ->setManageKey($this->apiKeyGenerator->generateApiKey())
-            ->setReadKey($this->apiKeyGenerator->generateApiKey())
+            ->setManageKey(password_hash($projectCredentials->getManageKey(), PASSWORD_BCRYPT))
+            ->setReadKey(password_hash($projectCredentials->getReadKey(), PASSWORD_BCRYPT))
         ;
         $this->entityManager->persist($project);
 
@@ -95,6 +96,14 @@ class ProjectService
         }
 
         return $project;
+    }
+
+    public function createCredentials(): ProjectCredentials
+    {
+        return new ProjectCredentials(
+            $this->apiKeyGenerator->generateApiKey(),
+            $this->apiKeyGenerator->generateApiKey()
+        );
     }
 
     public function updateProject(Project $project, ProjectRequest $projectRequest): Project

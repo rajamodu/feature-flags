@@ -9,6 +9,7 @@ use App\Controller\Manage\FeatureController;
 use App\Controller\Root\ProjectController;
 use App\Entity\Project;
 use App\EventSubscriber\TokenSubscriber;
+use App\Model\ProjectReference;
 use App\Repository\FeatureRepository;
 use App\Repository\ProjectRepository;
 use App\Service\AuthService;
@@ -150,17 +151,33 @@ class TokenSubscriberTest extends TestCase
     {
         $controller = $this->getFeatureController();
 
+        $project = new Project();
+        $projectReference = new ProjectReference('antonshell', 'demo');
+
         $this->authService
             ->expects(self::once())
             ->method('getTokenFromGlobals')
             ->willReturn(self::MANAGE_TOKEN)
         ;
 
+        $this->authService
+            ->expects(self::once())
+            ->method('getProjectReferenceFromGlobals')
+            ->willReturn($projectReference)
+        ;
+
+        $this->authService
+            ->expects(self::once())
+            ->method('verifyManageAccessToken')
+            ->with(self::MANAGE_TOKEN, $project)
+            ->willReturn(true)
+        ;
+
         $this->projectRepository
             ->expects(self::once())
-            ->method('findOneByManageKey')
-            ->with(self::MANAGE_TOKEN)
-            ->willReturn(new Project())
+            ->method('findOneByOwnerAndName')
+            ->with('antonshell', 'demo')
+            ->willReturn($project)
         ;
 
         $event = new ControllerEvent(
@@ -195,7 +212,7 @@ class TokenSubscriberTest extends TestCase
         $this->tokenSubscriber->onKernelController($event);
     }
 
-    public function testOnKernelControllerManageTokenInvalid(): void
+    public function testOnKernelControllerProjectReferenceMissing(): void
     {
         $controller = $this->getFeatureController();
 
@@ -205,10 +222,9 @@ class TokenSubscriberTest extends TestCase
             ->willReturn(self::MANAGE_TOKEN)
         ;
 
-        $this->projectRepository
+        $this->authService
             ->expects(self::once())
-            ->method('findOneByManageKey')
-            ->with(self::MANAGE_TOKEN)
+            ->method('getProjectReferenceFromGlobals')
             ->willReturn(null)
         ;
 
@@ -220,7 +236,51 @@ class TokenSubscriberTest extends TestCase
         );
 
         $this->expectException(AccessDeniedHttpException::class);
-        $this->expectExceptionMessage('Invalid access token provided');
+        $this->expectExceptionMessage('This action needs a valid project reference!');
+        $this->tokenSubscriber->onKernelController($event);
+    }
+
+    public function testOnKernelControllerManageTokenInvalid(): void
+    {
+        $controller = $this->getFeatureController();
+
+        $project = new Project();
+        $this->authService
+            ->expects(self::once())
+            ->method('getTokenFromGlobals')
+            ->willReturn(self::MANAGE_TOKEN)
+        ;
+
+        $projectReference = new ProjectReference('antonshell', 'demo');
+        $this->authService
+            ->expects(self::once())
+            ->method('getProjectReferenceFromGlobals')
+            ->willReturn($projectReference)
+        ;
+
+        $this->authService
+            ->expects(self::once())
+            ->method('verifyManageAccessToken')
+            ->with(self::MANAGE_TOKEN, $project)
+            ->willReturn(false)
+        ;
+
+        $this->projectRepository
+            ->expects(self::once())
+            ->method('findOneByOwnerAndName')
+            ->with('antonshell', 'demo')
+            ->willReturn($project)
+        ;
+
+        $event = new ControllerEvent(
+            $this->getMockBuilder(HttpKernel::class)->disableOriginalConstructor()->getMock(),
+            [$controller, 'getProjectFeatures'],
+            $this->getMockBuilder(Request::class)->disableOriginalConstructor()->getMock(),
+            1
+        );
+
+        $this->expectException(AccessDeniedHttpException::class);
+        $this->expectExceptionMessage('Invalid credentials provided');
         $this->tokenSubscriber->onKernelController($event);
     }
 
