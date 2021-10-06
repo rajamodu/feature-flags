@@ -152,14 +152,13 @@ class TokenSubscriberTest extends TestCase
         $controller = $this->getFeatureController();
 
         $project = new Project();
-        $projectReference = new ProjectReference('antonshell','demo');
+        $projectReference = new ProjectReference('antonshell', 'demo');
 
         $this->authService
             ->expects(self::once())
             ->method('getTokenFromGlobals')
             ->willReturn(self::MANAGE_TOKEN)
         ;
-
 
         $this->authService
             ->expects(self::once())
@@ -177,7 +176,7 @@ class TokenSubscriberTest extends TestCase
         $this->projectRepository
             ->expects(self::once())
             ->method('findOneByOwnerAndName')
-            ->with('antonshell','demo')
+            ->with('antonshell', 'demo')
             ->willReturn($project)
         ;
 
@@ -252,7 +251,7 @@ class TokenSubscriberTest extends TestCase
             ->willReturn(self::MANAGE_TOKEN)
         ;
 
-        $projectReference = new ProjectReference('antonshell','demo');
+        $projectReference = new ProjectReference('antonshell', 'demo');
         $this->authService
             ->expects(self::once())
             ->method('getProjectReferenceFromGlobals')
@@ -269,7 +268,7 @@ class TokenSubscriberTest extends TestCase
         $this->projectRepository
             ->expects(self::once())
             ->method('findOneByOwnerAndName')
-            ->with('antonshell','demo')
+            ->with('antonshell', 'demo')
             ->willReturn($project)
         ;
 

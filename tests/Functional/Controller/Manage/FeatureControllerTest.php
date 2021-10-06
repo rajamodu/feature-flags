@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Root;
 
-use App\Tests\DataFixtures\Controller\Manage\EnvironmentControllerFixture;
 use App\Tests\DataFixtures\Controller\Manage\FeatureControllerFixture;
 use App\Tests\Functional\Controller\AbstractControllerTest;
 use Symfony\Component\HttpFoundation\Request;
