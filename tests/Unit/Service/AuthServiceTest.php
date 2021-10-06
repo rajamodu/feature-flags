@@ -40,7 +40,8 @@ class AuthServiceTest extends TestCase
     {
         unset($_SERVER['HTTP_AUTHORIZATION']);
         $project = new Project();
-        self::assertFalse($this->authService->verifyReadAccessToken($project));
+        $project->setReadKey('');
+        self::assertFalse($this->authService->verifyReadAccessToken('', $project));
     }
 
     public function testGetTokenFromGlobalsMissing(): void
