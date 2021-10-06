@@ -21,6 +21,9 @@ class EntityFactory extends AbstractFactory
             'manageKey' => bin2hex(random_bytes(64)),
         ]);
 
+        $data['readKey'] = password_hash($data['readKey'], PASSWORD_BCRYPT);
+        $data['manageKey'] = password_hash($data['manageKey'], PASSWORD_BCRYPT);
+
         return $this->create(Project::class, $data);
     }
 
