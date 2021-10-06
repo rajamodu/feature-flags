@@ -14,7 +14,7 @@ class FeatureControllerTest extends AbstractControllerTest
 {
     public function testGetProjectFeatures(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_GET, '/api/features');
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -35,7 +35,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetByName(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_GET, '/api/feature/feature1');
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -53,14 +53,14 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testGetByNameNotFound(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_GET, '/api/feature/wrong_feature');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testCreate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature'), [
             'name' => 'feature2',
             'description' => 'feature 2',
@@ -81,7 +81,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testCreateDuplicate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature'), [
             'name' => 'feature1',
             'description' => 'feature 4',
@@ -91,7 +91,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testCreateInvalid(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature'), [
             'name' => '',
             'description' => 'Feature 4',
@@ -101,7 +101,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testUpdate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/feature/feature1', [
             'name' => 'feature1-new',
             'description' => 'feature1 new',
@@ -115,7 +115,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testUpdateNotFound(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/feature/wrong_feature', [
             'name' => 'feature1-new',
             'description' => 'feature1 new',
@@ -125,7 +125,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testUpdateDuplicate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/feature/feature1', [
             'name' => 'feature3',
             'description' => 'feature1 new',
@@ -135,7 +135,7 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testUpdateInvalid(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/feature/feature1', [
             'name' => '',
             'description' => 'feature1 new',
@@ -145,14 +145,14 @@ class FeatureControllerTest extends AbstractControllerTest
 
     public function testDelete(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_DELETE, '/api/feature/feature1');
         self::assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteNotFound(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_DELETE, '/api/feature/wrong_feature');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }

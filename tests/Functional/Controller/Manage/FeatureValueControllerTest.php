@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Controller\Root;
 
+use App\Tests\DataFixtures\Controller\Manage\EnvironmentControllerFixture;
 use App\Tests\DataFixtures\Controller\Manage\FeatureValueControllerFixture;
 use App\Tests\Functional\Controller\AbstractControllerTest;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ class FeatureValueControllerTest extends AbstractControllerTest
 {
     public function testSetFeatureValue(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureValueControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature/feature1/value'), [
             'enabled' => true,
             'environment' => 'prod',
@@ -30,7 +31,7 @@ class FeatureValueControllerTest extends AbstractControllerTest
 
     public function testSetFeatureValueNotFoundFeature(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureValueControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature/wrong_feature/value'), [
             'enabled' => true,
             'environment' => 'prod',
@@ -40,7 +41,7 @@ class FeatureValueControllerTest extends AbstractControllerTest
 
     public function testSetFeatureValueNotFoundEnvironment(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureValueControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature/feature1/value'), [
             'enabled' => true,
             'environment' => 'wrong_environment',
@@ -50,17 +51,17 @@ class FeatureValueControllerTest extends AbstractControllerTest
 
     public function testSetFeatureValueNotFoundValue(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureValueControllerFixture::PROJECT2_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken(FeatureValueControllerFixture::PROJECT2_MANAGE_KEY, EnvironmentControllerFixture::OWNER, EnvironmentControllerFixture::DEMO_PROJECT);
         $this->sendPostApiRequest(sprintf('/api/feature/feature2/value'), [
             'enabled' => true,
             'environment' => 'prod',
         ]);
-        self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        self::assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
     }
 
     public function testSetFeatureValueInvalid(): void
     {
-        $this->authorizeWithReadAccessToken(FeatureValueControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/feature/feature1/value'), [
             'enabled' => '',
             'environment' => 'prod',

@@ -13,7 +13,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 {
     public function testGetProjectEnvironments(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_GET, '/api/environments');
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -34,7 +34,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testGetByName(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_GET, '/api/environment/prod');
         self::assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -51,14 +51,14 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testGetByNameNotFound(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_GET, '/api/environment/wrong_environment');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testCreate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/environment'), [
             'name' => 'qa1',
             'description' => 'QA1',
@@ -78,7 +78,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testCreateDuplicate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/environment'), [
             'name' => 'prod',
             'description' => 'prod',
@@ -88,7 +88,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testCreateInvalid(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest(sprintf('/api/environment'), [
             'name' => '',
             'description' => 'QA1',
@@ -98,7 +98,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testUpdate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/environment/stage', [
             'name' => 'stage-new',
             'description' => 'stage new',
@@ -112,7 +112,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testUpdateNotFound(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/environment/wrong_environment', [
             'name' => 'wrong_environment',
             'description' => 'wrong environment',
@@ -122,7 +122,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testUpdateDuplicate(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/environment/stage', [
             'name' => 'prod',
             'description' => 'stage new',
@@ -132,7 +132,7 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testUpdateInvalid(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->sendPostApiRequest('/api/environment/stage', [
             'name' => '',
             'description' => 'stage new',
@@ -142,21 +142,21 @@ class EnvironmentControllerTest extends AbstractControllerTest
 
     public function testDelete(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_DELETE, '/api/environment/stage');
         self::assertEquals(Response::HTTP_NO_CONTENT, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteProd(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_DELETE, '/api/environment/prod');
         self::assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteNotFound(): void
     {
-        $this->authorizeWithReadAccessToken(EnvironmentControllerFixture::DEMO_MANAGE_KEY);
+        $this->authorizeWithManageAccessToken();
         $this->client->request(Request::METHOD_DELETE, '/api/environment/wrong_environment');
         self::assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
